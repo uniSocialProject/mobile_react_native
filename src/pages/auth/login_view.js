@@ -10,11 +10,10 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import * as Font from "expo-font";
 
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Octicons from "react-native-vector-icons/Octicons";
-export default function AuthPage() {
+export default function LoginPage({navigation}) {
   const [isPasswordSecure, setIsPasswordSecure] = useState(true);
   return (
     <SafeAreaView style={styles.safearea_container}>
@@ -22,7 +21,7 @@ export default function AuthPage() {
         <View style={styles.logo_container}>
           <Image
             style={styles.logo}
-            source={require("../assets/images/logo.png")}
+            source={require("../../assets/images/logo.png")}
           />
         </View>
 
@@ -68,7 +67,7 @@ export default function AuthPage() {
             <Text style={styles.login_button_text}>Giriş Yap</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.register_button}>
+          <TouchableOpacity style={styles.register_button} onPress={()=>navigation.navigate("RegisterPage")}>
             <Text style={styles.register_button_text}>
               Hesabınız yoksa kayıt olun!
             </Text>
@@ -96,7 +95,7 @@ const styles = StyleSheet.create({
   },
   login_text: {
     textAlign: "left",
-    fontWeight: "600",
+    fontWeight: "700",
     fontSize: 32,
     paddingVertical: 10,
   },
@@ -117,8 +116,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   forgot_passwd: {
-    fontSize: 16,
-    fontWeight: "400",
+    fontSize: 18,
+    fontWeight: "500",
+    color: "#1286C8"
   },
   login_button: {
     alignItems: "center",
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   register_button_text: {
-    fontSize: 16,
+    fontSize: 18,
     color: "#1286C8",
     fontWeight: "600",
   },
