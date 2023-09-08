@@ -15,6 +15,16 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Octicons from "react-native-vector-icons/Octicons";
 export default function LoginPage({navigation}) {
   const [isPasswordSecure, setIsPasswordSecure] = useState(true);
+
+  const [data, setData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [isValid, setIsValid] = useState(true);
+
+
+
   return (
     <SafeAreaView style={styles.safearea_container}>
       <View style={styles.container}>
@@ -27,7 +37,7 @@ export default function LoginPage({navigation}) {
 
         <Text style={styles.login_text}>Giriş Yap</Text>
         <View style={styles.input_container}>
-          <TextInput style={styles.input} placeholder="Email" />
+          <TextInput style={ isValid ? styles.input : styles.input_error} value={data.email} onChangeText={(value)=>{setData({...data,email: value})}} placeholder="Email" />
           <MaterialIcons
             name="alternate-email"
             size={20}
@@ -37,7 +47,9 @@ export default function LoginPage({navigation}) {
         </View>
         <View style={styles.input_container}>
           <TextInput
-            style={styles.input}
+           style={ isValid ? styles.input : styles.input_error}
+           onChangeText={(value)=>{setData({...data,password: value})}}
+           value={data.password}
             placeholder="Şifre"
             secureTextEntry={isPasswordSecure}
           />
@@ -63,7 +75,15 @@ export default function LoginPage({navigation}) {
         </View>
 
         <View>
-          <TouchableOpacity style={styles.login_button}>
+          <TouchableOpacity style={styles.login_button} onPress={()=>{
+            if(data.email != "" && data.password != ""){
+              navigation.navigate("RegisterPage");
+              setData({email: "",password: ""})
+              setIsValid(true)
+            }else{
+              setIsValid(false);
+            }
+          }}>
             <Text style={styles.login_button_text}>Giriş Yap</Text>
           </TouchableOpacity>
 
@@ -114,6 +134,14 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     flex: 1,
+  },
+  input_error: {
+    height: 45,
+    borderRadius: 10,
+    borderWidth: 2,
+    padding: 10,
+    flex: 1,
+    borderColor: "red",
   },
   forgot_passwd: {
     fontSize: 18,

@@ -14,10 +14,21 @@ import {
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Octicons from "react-native-vector-icons/Octicons";
 import AntDesign from "react-native-vector-icons/AntDesign";
-import Ionicons from 'react-native-vector-icons/Ionicons';
-export default function RegisterPage({navigation}) {
+import Ionicons from "react-native-vector-icons/Ionicons";
+export default function RegisterPage({ navigation }) {
   const [step, setStep] = useState(1);
   const [isPasswordSecure, setIsPasswordSecure] = useState(true);
+
+  const [data, setData] = useState({
+    name: "",
+    surname: "",
+    university: "",
+    department: "",
+    email: "",
+    password: "",
+  });
+
+  const [isValid, setIsValid] = useState(true);
 
   let step1 = (
     <>
@@ -29,27 +40,52 @@ export default function RegisterPage({navigation}) {
         }}
       >
         <Text style={styles.step_info}>Öğrenci Bilgileri</Text>
-        <AntDesign name="user" size={20} color="black" style={{paddingHorizontal: 5}} />
+        <AntDesign
+          name="user"
+          size={20}
+          color="black"
+          style={{ paddingHorizontal: 5 }}
+        />
       </View>
 
-
       <View style={styles.input_container}>
-        <TextInput style={styles.input} placeholder="Ad" />
+        <TextInput
+          style={isValid ? styles.input : styles.input_error}
+          value={data.name}
+          onChangeText={(value) => setData({ ...data, name: value })}
+          placeholder="Ad"
+        />
       </View>
 
       <View style={styles.input_container}>
-        <TextInput style={styles.input} placeholder="Soyad" />
+        <TextInput
+          style={isValid ? styles.input : styles.input_error}
+          value={data.surname}
+          onChangeText={(value) => setData({ ...data, surname: value })}
+          placeholder="Soyad"
+        />
       </View>
 
       <View>
         <TouchableOpacity
           style={styles.register_button}
-          onPress={() => setStep(2)}
+          onPress={() => {
+            
+            if (data.name != "" && data.surname != "") {
+              setStep(2);
+              setIsValid(true);
+            } else {
+              setIsValid(false);
+            }
+          }}
         >
           <Text style={styles.register_button_text}>Devam Et</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.login_button} onPress={()=>navigation.navigate("LoginPage")}>
+        <TouchableOpacity
+          style={styles.login_button}
+          onPress={() => navigation.navigate("LoginPage")}
+        >
           <Text style={styles.login_button_text}>
             Hesabınız varsa giriş yapın!
           </Text>
@@ -68,31 +104,52 @@ export default function RegisterPage({navigation}) {
         }}
       >
         <Text style={styles.step_info}>Okul Bilgileri</Text>
-        <Ionicons name="school" size={20} color="black" style={{paddingHorizontal: 5}} />
-      </View>
-      <View style={styles.input_container}>
-        <TextInput style={styles.input} placeholder="Üniversite" />
-        
+        <Ionicons
+          name="school"
+          size={20}
+          color="black"
+          style={{ paddingHorizontal: 5 }}
+        />
       </View>
       <View style={styles.input_container}>
         <TextInput
-          style={styles.input}
+          style={isValid ? styles.input : styles.input_error}
+          value={data.university}
+          onChangeText={(value) => setData({ ...data, university: value })}
+          placeholder="Üniversite"
+        />
+      </View>
+      <View style={styles.input_container}>
+        <TextInput
+          style={isValid ? styles.input : styles.input_error}
+          value={data.department}
+          onChangeText={(value) => setData({ ...data, department: value })}
           placeholder="Bölüm"
-          secureTextEntry={isPasswordSecure}
         />
       </View>
 
       <View>
         <TouchableOpacity
           style={styles.register_button}
-          onPress={() => setStep(3)}
+          onPress={() => {
+           
+            if (data.university != "" && data.department != "") {
+              setStep(3);
+              setIsValid(true);
+            } else {
+              setIsValid(false);
+            }
+          }}
         >
           <Text style={styles.register_button_text}>Devam Et</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={styles.login_button}
-          onPress={() => setStep(1)}
+          onPress={() => {
+            setStep(1);
+            setIsValid(true);
+          }}
         >
           <Text style={styles.login_button_text}>Geri Dön</Text>
         </TouchableOpacity>
@@ -110,10 +167,14 @@ export default function RegisterPage({navigation}) {
         }}
       >
         <Text style={styles.step_info}>Giriş Bilgileri</Text>
-      
       </View>
       <View style={styles.input_container}>
-        <TextInput style={styles.input} placeholder="Email" />
+        <TextInput
+          style={isValid ? styles.input : styles.input_error}
+          value={data.email}
+          onChangeText={(value) => setData({ ...data, email: value })}
+          placeholder="Email"
+        />
         <MaterialIcons
           name="alternate-email"
           size={20}
@@ -123,7 +184,9 @@ export default function RegisterPage({navigation}) {
       </View>
       <View style={styles.input_container}>
         <TextInput
-          style={styles.input}
+          style={isValid ? styles.input : styles.input_error}
+          value={data.password}
+          onChangeText={(value) => setData({ ...data, password: value })}
           placeholder="Şifre"
           secureTextEntry={isPasswordSecure}
         />
@@ -144,13 +207,33 @@ export default function RegisterPage({navigation}) {
       </View>
 
       <View>
-        <TouchableOpacity style={styles.register_button}>
+        <TouchableOpacity
+          style={styles.register_button}
+          onPress={() => {
+            if (data.email != "" && data.password != "") {
+              console.log(data.name);
+              console.log(data.surname);
+              console.log(data.university);
+              console.log(data.department);
+              console.log(data.email);
+              console.log(data.password);
+
+              navigation.navigate("LoginPage");
+              setIsValid(true);
+            } else {
+              setIsValid(false);
+            }
+          }}
+        >
           <Text style={styles.register_button_text}>Kayıt Ol</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={styles.login_button}
-          onPress={() => setStep(2)}
+          onPress={() => {
+            setStep(2);
+            setIsValid(true);
+          }}
         >
           <Text style={styles.login_button_text}>Geri Dön</Text>
         </TouchableOpacity>
@@ -168,9 +251,9 @@ export default function RegisterPage({navigation}) {
           />
         </View>
 
-        <View style={{flexDirection: "row", justifyContent: "space-between"}}>
-        <Text style={styles.login_text}>{"Kayıt Ol"}</Text>
-        <Text style={styles.login_text}>{`${step}/3`}</Text>
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+          <Text style={styles.login_text}>{"Kayıt Ol"}</Text>
+          <Text style={styles.login_text}>{`${step}/3`}</Text>
         </View>
         {step == 1 && step1}
         {step == 2 && step2}
@@ -217,7 +300,15 @@ const styles = StyleSheet.create({
     padding: 10,
     flex: 1,
   },
- 
+  input_error: {
+    height: 45,
+    borderRadius: 10,
+    borderWidth: 2,
+    padding: 10,
+    flex: 1,
+    borderColor: "red",
+  },
+
   register_button: {
     alignItems: "center",
     margin: 20,
