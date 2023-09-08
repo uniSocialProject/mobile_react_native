@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
+  Alert,
   Button,
   Image,
   ImageBackground,
@@ -13,7 +14,13 @@ import {
 
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Octicons from "react-native-vector-icons/Octicons";
+import { login } from "../../util/auth";
+import LoadingOverlay from "../../components/LoadingOverlay";
+import { AuthContext } from "../../store/auth-context";
 export default function LoginPage({navigation}) {
+
+  const authCtx = useContext(AuthContext);
+
   const [isPasswordSecure, setIsPasswordSecure] = useState(true);
 
   const [data, setData] = useState({
@@ -23,6 +30,24 @@ export default function LoginPage({navigation}) {
 
   const [isValid, setIsValid] = useState(true);
 
+
+  const [isLoading,setIsLoading] = useState(false);
+  async function loginHandler(email,password){
+    setIsLoading(true);
+    try{
+      const token = await login(email,password);
+      authCtx.authenticate(token)
+
+    }catch(error){
+      Alert.alert('Bazı şeyler  yolunda gitmedi','Giriş yapılamadı')
+    }
+    setIsLoading(false)
+  }
+
+
+  if(isLoading){
+    return <LoadingOverlay modalVisible={true} />
+  }
 
 
   return (
@@ -77,7 +102,8 @@ export default function LoginPage({navigation}) {
         <View>
           <TouchableOpacity style={styles.login_button} onPress={()=>{
             if(data.email != "" && data.password != ""){
-              navigation.navigate("RegisterPage");
+              console.log(data.email,data.password)
+              loginHandler(data.email,data.password);
               setData({email: "",password: ""})
               setIsValid(true)
             }else{

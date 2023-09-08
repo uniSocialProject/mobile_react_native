@@ -9,7 +9,7 @@ export default function SplashPage({navigation}){
     useEffect(()=>{
         setTimeout(() => {
             navigation.navigate("LoginPage");
-        }, 2000);
+        }, 500);
     },[]);
 
     return (
@@ -34,8 +34,8 @@ const styles = StyleSheet.create({
     
     },
     logo: {
-      height:200,
-      width: 300
+      height:180,
+      width: 280
     },
     
   });

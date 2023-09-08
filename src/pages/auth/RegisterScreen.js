@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
   Button,
   Image,
@@ -15,9 +15,14 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Octicons from "react-native-vector-icons/Octicons";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { login, register } from "../../util/auth";
+import LoadingOverlay from "../../components/LoadingOverlay";
+import { AuthContext } from "../../store/auth-context";
 export default function RegisterPage({ navigation }) {
   const [step, setStep] = useState(1);
   const [isPasswordSecure, setIsPasswordSecure] = useState(true);
+
+  const authCtx = useContext(AuthContext);
 
   const [data, setData] = useState({
     name: "",
@@ -29,6 +34,20 @@ export default function RegisterPage({ navigation }) {
   });
 
   const [isValid, setIsValid] = useState(true);
+
+ const [isLoading,setIsLoading] = useState(false);
+  async function registerHandler(data){
+    setIsLoading(true);
+   const token = await register(data);
+    authCtx.authenticate(token)
+    setIsLoading(false)
+    navigation.navigate("LoginPage")
+  }
+
+
+  if(isLoading){
+    return <LoadingOverlay modalVisible={true} />
+  }
 
   let step1 = (
     <>
@@ -218,7 +237,7 @@ export default function RegisterPage({ navigation }) {
               console.log(data.email);
               console.log(data.password);
 
-              navigation.navigate("LoginPage");
+              registerHandler(data);
               setIsValid(true);
             } else {
               setIsValid(false);
