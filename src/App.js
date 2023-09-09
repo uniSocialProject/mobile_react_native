@@ -19,11 +19,13 @@ function AuthenticatedStack() {
 }
 
 function AuthStack() {
+
   return (
     <Stack.Navigator
       screenOptions={{ headerShown: false, animation: "fade" }}
       initialRouteName="SplashPage"
     >
+
       <Stack.Screen name="LoginPage" component={LoginPage} />
       <Stack.Screen name="RegisterPage" component={RegisterPage} />
       <Stack.Screen name="SplashPage" component={SplashPage} />
@@ -32,7 +34,6 @@ function AuthStack() {
 }
 
 function Navigation() {
-
   const authCtx = useContext(AuthContext);
   return (
     <NavigationContainer>
@@ -43,10 +44,12 @@ function Navigation() {
 }
 
 export default function App() {
+
   return (
     <>
       <AuthContextProvider>
-       <Navigation />
+
+          <Navigation />
       </AuthContextProvider>
     </>
   );

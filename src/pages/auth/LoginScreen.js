@@ -17,8 +17,7 @@ import Octicons from "react-native-vector-icons/Octicons";
 import { login } from "../../util/auth";
 import LoadingOverlay from "../../components/LoadingOverlay";
 import { AuthContext } from "../../store/auth-context";
-export default function LoginPage({navigation}) {
-
+export default function LoginPage({ navigation }) {
   const authCtx = useContext(AuthContext);
 
   const [isPasswordSecure, setIsPasswordSecure] = useState(true);
@@ -30,97 +29,111 @@ export default function LoginPage({navigation}) {
 
   const [isValid, setIsValid] = useState(true);
 
-
-  const [isLoading,setIsLoading] = useState(false);
-  async function loginHandler(email,password){
+  const [isLoading, setIsLoading] = useState(false);
+  async function loginHandler(email, password) {
     setIsLoading(true);
-    try{
-      const token = await login(email,password);
-      authCtx.authenticate(token)
-
-    }catch(error){
-      Alert.alert('Bazı şeyler  yolunda gitmedi','Giriş yapılamadı')
+    try {
+      const response = await login(email, password);
+      const token = response.token;
+      authCtx.authenticate(token);
+    } catch (error) {
+      Alert.alert("Bazı şeyler yolunda gitmedi", error,[{text: "Tamam"}]);
     }
-    setIsLoading(false)
-  }
-
-
-  if(isLoading){
-    return <LoadingOverlay modalVisible={true} />
+    setIsLoading(false);
   }
 
 
   return (
-    <SafeAreaView style={styles.safearea_container}>
-      <View style={styles.container}>
-        <View style={styles.logo_container}>
-          <Image
-            style={styles.logo}
-            source={require("../../assets/images/logo.png")}
-          />
-        </View>
+    <>
+      {isLoading && <LoadingOverlay />}
 
-        <Text style={styles.login_text}>Giriş Yap</Text>
-        <View style={styles.input_container}>
-          <TextInput style={ isValid ? styles.input : styles.input_error} value={data.email} onChangeText={(value)=>{setData({...data,email: value})}} placeholder="Email" />
-          <MaterialIcons
-            name="alternate-email"
-            size={20}
-            color="black"
-            style={styles.icon}
-          />
-        </View>
-        <View style={styles.input_container}>
-          <TextInput
-           style={ isValid ? styles.input : styles.input_error}
-           onChangeText={(value)=>{setData({...data,password: value})}}
-           value={data.password}
-            placeholder="Şifre"
-            secureTextEntry={isPasswordSecure}
-          />
-          <TouchableOpacity
-            onPress={() => {
-              isPasswordSecure
-                ? setIsPasswordSecure(false)
-                : setIsPasswordSecure(true);
-            }}
-          >
-            <Octicons
-              name={isPasswordSecure ? "eye-closed" : "eye"}
+      <View style={styles.safearea_container}>
+
+        <View style={styles.container}>
+          <View style={styles.logo_container}>
+            <Image
+              style={styles.logo}
+              source={require("../../assets/images/logo.png")}
+            />
+          </View>
+
+          <Text style={styles.login_text}>Giriş Yap</Text>
+          <View style={styles.input_container}>
+            <TextInput
+              style={isValid ? styles.input : styles.input_error}
+              value={data.email}
+              onChangeText={(value) => {
+                setData({ ...data, email: value });
+              }}
+              placeholder="Email"
+            />
+            <MaterialIcons
+              name="alternate-email"
               size={20}
               color="black"
               style={styles.icon}
             />
-          </TouchableOpacity>
-        </View>
-        <View>
-          <TouchableOpacity>
-            <Text style={styles.forgot_passwd}>Şifrenizi mi unuttunuz?</Text>
-          </TouchableOpacity>
-        </View>
+          </View>
+          <View style={styles.input_container}>
+            <TextInput
+              style={isValid ? styles.input : styles.input_error}
+              onChangeText={(value) => {
+                setData({ ...data, password: value });
+              }}
+              value={data.password}
+              placeholder="Şifre"
+              secureTextEntry={isPasswordSecure}
+            />
+            <TouchableOpacity
+              onPress={() => {
+                isPasswordSecure
+                  ? setIsPasswordSecure(false)
+                  : setIsPasswordSecure(true);
+              }}
+            >
+              <Octicons
+                name={isPasswordSecure ? "eye-closed" : "eye"}
+                size={20}
+                color="black"
+                style={styles.icon}
+              />
+            </TouchableOpacity>
+          </View>
+          <View>
+            <TouchableOpacity>
+              <Text style={styles.forgot_passwd}>Şifrenizi mi unuttunuz?</Text>
+            </TouchableOpacity>
+          </View>
 
-        <View>
-          <TouchableOpacity style={styles.login_button} onPress={()=>{
-            if(data.email != "" && data.password != ""){
-              console.log(data.email,data.password)
-              loginHandler(data.email,data.password);
-              setData({email: "",password: ""})
-              setIsValid(true)
-            }else{
-              setIsValid(false);
-            }
-          }}>
-            <Text style={styles.login_button_text}>Giriş Yap</Text>
-          </TouchableOpacity>
+          <View>
+            <TouchableOpacity
+              style={styles.login_button}
+              onPress={() => {
+                if (data.email != "" && data.password != "") {
+                  console.log(data.email, data.password);
+                  loginHandler(data.email, data.password);
+                  setData({ email: "", password: "" });
+                  setIsValid(true);
+                } else {
+                  setIsValid(false);
+                }
+              }}
+            >
+              <Text style={styles.login_button_text}>Giriş Yap</Text>
+            </TouchableOpacity>
 
-          <TouchableOpacity style={styles.register_button} onPress={()=>navigation.navigate("RegisterPage")}>
-            <Text style={styles.register_button_text}>
-              Hesabınız yoksa kayıt olun!
-            </Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.register_button}
+              onPress={() => navigation.navigate("RegisterPage")}
+            >
+              <Text style={styles.register_button_text}>
+                Hesabınız yoksa kayıt olun!
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
-    </SafeAreaView>
+    </>
   );
 }
 
@@ -172,7 +185,7 @@ const styles = StyleSheet.create({
   forgot_passwd: {
     fontSize: 18,
     fontWeight: "500",
-    color: "#1286C8"
+    color: "#1286C8",
   },
   login_button: {
     alignItems: "center",

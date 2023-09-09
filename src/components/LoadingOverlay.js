@@ -10,21 +10,21 @@ import {
 
 function LoadingOverlay(props) {
   return (
-    <Modal transparent >
+    
+    <Modal transparent statusBarTranslucent={true}>
       <View
         style={{
-          flex: 1,
-          backgroundColor: "white",
+          backgroundColor: "rgba(0,0,0,0.5)",
           justifyContent: "center",
           alignItems: "center",
+          flex: 1,
+     
         }}
       >
-        <View style={styles.logo_container}>
           <Image
             style={styles.logo}
             source={require("../assets/gifs/loadingSpinnerGif.gif")}
           />
-        </View>
       </View>
     </Modal>
   );
@@ -33,21 +33,14 @@ function LoadingOverlay(props) {
 export default LoadingOverlay;
 
 const styles = StyleSheet.create({
-  fill: {
-    flex: 1,
-  },
-  logo_container: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    height: "100%",
-  },
+  
+  
   logo: {
+    backgroundColor: "rgba(255,255,255,0.8)",
+    borderRadius: 20,
     height: 75,
     width: 75,
+    
   },
-  modalView: {
-    alignItems: "center",
-  },
+ 
 });

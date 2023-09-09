@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
 import {
+  Alert,
   Button,
   Image,
   ImageBackground,
@@ -35,18 +36,19 @@ export default function RegisterPage({ navigation }) {
 
   const [isValid, setIsValid] = useState(true);
 
- const [isLoading,setIsLoading] = useState(false);
-  async function registerHandler(data){
+  const [isLoading, setIsLoading] = useState(false);
+  async function registerHandler(data) {
     setIsLoading(true);
-   const token = await register(data);
-    authCtx.authenticate(token)
-    setIsLoading(false)
-    navigation.navigate("LoginPage")
-  }
+    try {
+      const response = await register(data);
+      const token = response.token;
+      authCtx.authenticate(token);
+      navigation.navigate("LoginPage");
+    } catch (error) {
+      Alert.alert("Bazı şeyler yolunda gitmedi", error, [{ text: "Tamam" }]);
+    }
 
-
-  if(isLoading){
-    return <LoadingOverlay modalVisible={true} />
+    setIsLoading(false);
   }
 
   let step1 = (
@@ -89,7 +91,6 @@ export default function RegisterPage({ navigation }) {
         <TouchableOpacity
           style={styles.register_button}
           onPress={() => {
-            
             if (data.name != "" && data.surname != "") {
               setStep(2);
               setIsValid(true);
@@ -151,7 +152,6 @@ export default function RegisterPage({ navigation }) {
         <TouchableOpacity
           style={styles.register_button}
           onPress={() => {
-           
             if (data.university != "" && data.department != "") {
               setStep(3);
               setIsValid(true);
@@ -261,24 +261,30 @@ export default function RegisterPage({ navigation }) {
   );
 
   return (
-    <SafeAreaView style={styles.safearea_container}>
-      <View style={styles.container}>
-        <View style={styles.logo_container}>
-          <Image
-            style={styles.logo}
-            source={require("../../assets/images/logo.png")}
-          />
-        </View>
+    <>
+      {isLoading && <LoadingOverlay />}
 
-        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-          <Text style={styles.login_text}>{"Kayıt Ol"}</Text>
-          <Text style={styles.login_text}>{`${step}/3`}</Text>
+      <SafeAreaView style={styles.safearea_container}>
+        <View style={styles.container}>
+          <View style={styles.logo_container}>
+            <Image
+              style={styles.logo}
+              source={require("../../assets/images/logo.png")}
+            />
+          </View>
+
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
+          >
+            <Text style={styles.login_text}>{"Kayıt Ol"}</Text>
+            <Text style={styles.login_text}>{`${step}/3`}</Text>
+          </View>
+          {step == 1 && step1}
+          {step == 2 && step2}
+          {step == 3 && step3}
         </View>
-        {step == 1 && step1}
-        {step == 2 && step2}
-        {step == 3 && step3}
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
+    </>
   );
 }
 
