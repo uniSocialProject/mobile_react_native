@@ -8,6 +8,7 @@ import SplashPage from "./pages/splash/SplashScreen";
 import HomePage from "./pages/homepage/HomeScreen";
 import AuthContextProvider, { AuthContext } from "./store/auth-context";
 import { useContext } from "react";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 const Stack = createNativeStackNavigator();
 
 function AuthenticatedStack() {
@@ -19,13 +20,11 @@ function AuthenticatedStack() {
 }
 
 function AuthStack() {
-
   return (
     <Stack.Navigator
       screenOptions={{ headerShown: false, animation: "fade" }}
       initialRouteName="SplashPage"
     >
-
       <Stack.Screen name="LoginPage" component={LoginPage} />
       <Stack.Screen name="RegisterPage" component={RegisterPage} />
       <Stack.Screen name="SplashPage" component={SplashPage} />
@@ -44,13 +43,10 @@ function Navigation() {
 }
 
 export default function App() {
-
   return (
-    <>
-      <AuthContextProvider>
-
-          <Navigation />
-      </AuthContextProvider>
-    </>
+    
+    <AuthContextProvider>
+      <Navigation />
+    </AuthContextProvider>
   );
 }

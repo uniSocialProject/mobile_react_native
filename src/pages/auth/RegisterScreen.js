@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import {
   Alert,
   Button,
+  Dimensions,
   Image,
   ImageBackground,
   SafeAreaView,
@@ -19,6 +20,11 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import { login, register } from "../../util/auth";
 import LoadingOverlay from "../../components/LoadingOverlay";
 import { AuthContext } from "../../store/auth-context";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import Animated, { SlideInDown, SlideOutDown } from "react-native-reanimated";
+import BottomSheet from "../../components/BottomSheet";
+import UniversitiesSectionList from "../../components/Universities";
+import DepartmentsSectionList from "../../components/Departments";
 export default function RegisterPage({ navigation }) {
   const [step, setStep] = useState(1);
   const [isPasswordSecure, setIsPasswordSecure] = useState(true);
@@ -28,8 +34,8 @@ export default function RegisterPage({ navigation }) {
   const [data, setData] = useState({
     name: "",
     surname: "",
-    university: "",
-    department: "",
+    university: undefined,
+    department: undefined,
     email: "",
     password: "",
   });
@@ -114,6 +120,19 @@ export default function RegisterPage({ navigation }) {
     </>
   );
 
+  const [isUniversitiesOpen, setUniversitiesOpen] = useState(false);
+  const [isDepartmentsOpen, setDepartmentsOpen] = useState(false);
+  const toggleUniversitiesSheet = (value) => {
+    setUniversitiesOpen(!isUniversitiesOpen);
+    data.university = value;
+    
+  };
+
+  const toggleDepartmentsSheet = (value) => {
+    setDepartmentsOpen(!isDepartmentsOpen);
+    data.department = value;
+  };
+
   let step2 = (
     <>
       <View
@@ -131,32 +150,38 @@ export default function RegisterPage({ navigation }) {
           style={{ paddingHorizontal: 5 }}
         />
       </View>
-      <View style={styles.input_container}>
-        <TextInput
-          style={isValid ? styles.input : styles.input_error}
-          value={data.university}
-          onChangeText={(value) => setData({ ...data, university: value })}
-          placeholder="Üniversite"
-        />
-      </View>
-      <View style={styles.input_container}>
-        <TextInput
-          style={isValid ? styles.input : styles.input_error}
-          value={data.department}
-          onChangeText={(value) => setData({ ...data, department: value })}
-          placeholder="Bölüm"
-        />
-      </View>
+
+      <TouchableOpacity
+        onPress={() => {
+          toggleUniversitiesSheet();
+        }}
+      >
+        <View style={data.university != undefined ? styles.button_container_success : isValid ? styles.button_container : styles.button_container_error}>
+          <Text>Üniversite</Text>
+        </View>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        onPress={() => {
+          toggleDepartmentsSheet();
+        }}
+      >
+        <View style={data.department != undefined ? styles.button_container_success : isValid ? styles.button_container : styles.button_container_error}>
+          <Text>Bölüm</Text>
+        </View>
+      </TouchableOpacity>
 
       <View>
         <TouchableOpacity
           style={styles.register_button}
           onPress={() => {
-            if (data.university != "" && data.department != "") {
+            if (data.university != undefined && data.department != undefined) {
               setStep(3);
               setIsValid(true);
             } else {
               setIsValid(false);
+              console.log(data.university)
+
             }
           }}
         >
@@ -262,28 +287,33 @@ export default function RegisterPage({ navigation }) {
 
   return (
     <>
-      {isLoading && <LoadingOverlay />}
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        {isLoading && <LoadingOverlay />}
 
-      <SafeAreaView style={styles.safearea_container}>
-        <View style={styles.container}>
-          <View style={styles.logo_container}>
-            <Image
-              style={styles.logo}
-              source={require("../../assets/images/logo.png")}
-            />
-          </View>
+        <SafeAreaView style={styles.safearea_container}>
+          <View style={styles.container}>
+            <View style={styles.logo_container}>
+              <Image
+                style={styles.logo}
+                source={require("../../assets/images/logo.png")}
+              />
+            </View>
 
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
-          >
-            <Text style={styles.login_text}>{"Kayıt Ol"}</Text>
-            <Text style={styles.login_text}>{`${step}/3`}</Text>
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-between" }}
+            >
+              <Text style={styles.login_text}>{"Kayıt Ol"}</Text>
+              <Text style={styles.login_text}>{`${step}/3`}</Text>
+            </View>
+            {step == 1 && step1}
+            {step == 2 && step2}
+            {step == 3 && step3}
           </View>
-          {step == 1 && step1}
-          {step == 2 && step2}
-          {step == 3 && step3}
-        </View>
-      </SafeAreaView>
+        </SafeAreaView>
+        {isUniversitiesOpen && <BottomSheet children={<UniversitiesSectionList toggle={toggleUniversitiesSheet} />} toggleSheet={toggleUniversitiesSheet} />}
+        {isDepartmentsOpen && <BottomSheet children={<DepartmentsSectionList toggle={toggleDepartmentsSheet} />} toggleSheet={toggleDepartmentsSheet} />}
+
+      </GestureHandlerRootView>
     </>
   );
 }
@@ -308,6 +338,44 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     fontSize: 32,
   },
+  button_container: {
+    flexDirection: "row",
+    paddingVertical: 0,
+    width: "100%",
+    alignItems: "center",
+    marginVertical: 10,
+    height: 45,
+    borderRadius: 10,
+    borderWidth: 1,
+    padding: 10,
+    justifyContent: "center",
+  },
+  button_container_success: {
+    flexDirection: "row",
+    paddingVertical: 0,
+    width: "100%",
+    alignItems: "center",
+    marginVertical: 10,
+    height: 45,
+    borderRadius: 10,
+    borderWidth: 2,
+    padding: 10,
+    borderColor: "green",
+    justifyContent: "center",
+  },
+  button_container_error: {
+    flexDirection: "row",
+    paddingVertical: 0,
+    width: "100%",
+    alignItems: "center",
+    marginVertical: 10,
+    height: 45,
+    borderRadius: 10,
+    borderColor: "red",
+    borderWidth: 2,
+    padding: 10,
+    justifyContent: "center",
+  },
   input_container: {
     flexDirection: "row",
     paddingVertical: 0,
@@ -317,6 +385,14 @@ const styles = StyleSheet.create({
   },
   icon: {
     marginHorizontal: 10,
+  },
+  button: {
+    height: 50,
+    width: "100%",
+    borderRadius: 10,
+    borderWidth: 1,
+    padding: 10,
+    flex: 1,
   },
   input: {
     height: 45,
