@@ -17,14 +17,14 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Octicons from "react-native-vector-icons/Octicons";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { login, register } from "../../util/auth";
-import LoadingOverlay from "../../components/LoadingOverlay";
-import { AuthContext } from "../../store/auth-context";
+import { login, register } from "../../../util/auth";
+import LoadingOverlay from "../../../components/LoadingOverlay";
+import { AuthContext } from "../../../store/auth-context";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Animated, { SlideInDown, SlideOutDown } from "react-native-reanimated";
-import BottomSheet from "../../components/BottomSheet";
-import UniversitiesSectionList from "../../components/Universities";
-import DepartmentsSectionList from "../../components/Departments";
+import BottomSheet from "../../../components/BottomSheet";
+import UniversitiesSectionList from "./sections/UniversitiesSection";
+import DepartmentsSectionList from "./sections/DepartmentsSection";
 export default function RegisterPage({ navigation }) {
   const [step, setStep] = useState(1);
   const [isPasswordSecure, setIsPasswordSecure] = useState(true);
@@ -125,6 +125,7 @@ export default function RegisterPage({ navigation }) {
   const toggleUniversitiesSheet = (value) => {
     setUniversitiesOpen(!isUniversitiesOpen);
     data.university = value;
+    console.log(data.university)
     
   };
 
@@ -157,7 +158,7 @@ export default function RegisterPage({ navigation }) {
         }}
       >
         <View style={data.university != undefined ? styles.button_container_success : isValid ? styles.button_container : styles.button_container_error}>
-          <Text>Üniversite</Text>
+          <Text>{data.university != "" && data.university != undefined ? data.university : "Üniversite"}</Text>
         </View>
       </TouchableOpacity>
 
@@ -295,7 +296,7 @@ export default function RegisterPage({ navigation }) {
             <View style={styles.logo_container}>
               <Image
                 style={styles.logo}
-                source={require("../../assets/images/logo.png")}
+                source={require("../../../assets/images/logo.png")}
               />
             </View>
 
@@ -310,8 +311,8 @@ export default function RegisterPage({ navigation }) {
             {step == 3 && step3}
           </View>
         </SafeAreaView>
-        {isUniversitiesOpen && <BottomSheet children={<UniversitiesSectionList toggle={toggleUniversitiesSheet} />} toggleSheet={toggleUniversitiesSheet} />}
-        {isDepartmentsOpen && <BottomSheet children={<DepartmentsSectionList toggle={toggleDepartmentsSheet} />} toggleSheet={toggleDepartmentsSheet} />}
+        {isUniversitiesOpen && <BottomSheet toggle={toggleUniversitiesSheet} />}
+        {isDepartmentsOpen && <BottomSheet toggle={toggleDepartmentsSheet} />}
 
       </GestureHandlerRootView>
     </>

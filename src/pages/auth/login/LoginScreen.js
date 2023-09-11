@@ -14,9 +14,9 @@ import {
 
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Octicons from "react-native-vector-icons/Octicons";
-import { login } from "../../util/auth";
-import LoadingOverlay from "../../components/LoadingOverlay";
-import { AuthContext } from "../../store/auth-context";
+import { login } from "../../../util/auth";
+import LoadingOverlay from "../../../components/LoadingOverlay";
+import { AuthContext } from "../../../store/auth-context";
 export default function LoginPage({ navigation }) {
   const authCtx = useContext(AuthContext);
 
@@ -53,7 +53,7 @@ export default function LoginPage({ navigation }) {
           <View style={styles.logo_container}>
             <Image
               style={styles.logo}
-              source={require("../../assets/images/logo.png")}
+              source={require("../../../assets/images/logo.png")}
             />
           </View>
 
