@@ -17,14 +17,12 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Octicons from "react-native-vector-icons/Octicons";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { login, register } from "../../../util/auth";
+import { register } from "../../../util/auth";
 import LoadingOverlay from "../../../components/LoadingOverlay";
 import { AuthContext } from "../../../store/auth-context";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import Animated, { SlideInDown, SlideOutDown } from "react-native-reanimated";
 import BottomSheet from "../../../components/BottomSheet";
-import UniversitiesSectionList from "./sections/UniversitiesSection";
-import DepartmentsSectionList from "./sections/DepartmentsSection";
+import UniversityList from "./step2/universities";
 export default function RegisterPage({ navigation }) {
   const [step, setStep] = useState(1);
   const [isPasswordSecure, setIsPasswordSecure] = useState(true);
@@ -34,8 +32,8 @@ export default function RegisterPage({ navigation }) {
   const [data, setData] = useState({
     name: "",
     surname: "",
-    university: undefined,
-    department: undefined,
+    university: "",
+    department: "",
     email: "",
     password: "",
   });
@@ -121,17 +119,11 @@ export default function RegisterPage({ navigation }) {
   );
 
   const [isUniversitiesOpen, setUniversitiesOpen] = useState(false);
-  const [isDepartmentsOpen, setDepartmentsOpen] = useState(false);
-  const toggleUniversitiesSheet = (value) => {
-    setUniversitiesOpen(!isUniversitiesOpen);
-    data.university = value;
-    console.log(data.university)
-    
-  };
 
-  const toggleDepartmentsSheet = (value) => {
-    setDepartmentsOpen(!isDepartmentsOpen);
-    data.department = value;
+  const toggleUniversitiesSheet = (university, department) => {
+    data.university = university;
+    data.department = department;
+    setUniversitiesOpen(!isUniversitiesOpen);
   };
 
   let step2 = (
@@ -157,18 +149,20 @@ export default function RegisterPage({ navigation }) {
           toggleUniversitiesSheet();
         }}
       >
-        <View style={data.university != undefined ? styles.button_container_success : isValid ? styles.button_container : styles.button_container_error}>
-          <Text>{data.university != "" && data.university != undefined ? data.university : "Üniversite"}</Text>
-        </View>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        onPress={() => {
-          toggleDepartmentsSheet();
-        }}
-      >
-        <View style={data.department != undefined ? styles.button_container_success : isValid ? styles.button_container : styles.button_container_error}>
-          <Text>Bölüm</Text>
+        <View
+          style={
+            data.university != "" && data.department
+              ? styles.button_container_success
+              : isValid
+              ? styles.button_container
+              : styles.button_container_error
+          }
+        >
+          <Text>
+            {data.university != "" && data.university != undefined
+              ? `${data.university} & ${data.department}`
+              : "Üniversite & Bölüm"}
+          </Text>
         </View>
       </TouchableOpacity>
 
@@ -181,8 +175,6 @@ export default function RegisterPage({ navigation }) {
               setIsValid(true);
             } else {
               setIsValid(false);
-              console.log(data.university)
-
             }
           }}
         >
@@ -311,9 +303,12 @@ export default function RegisterPage({ navigation }) {
             {step == 3 && step3}
           </View>
         </SafeAreaView>
-        {isUniversitiesOpen && <BottomSheet toggle={toggleUniversitiesSheet} />}
-        {isDepartmentsOpen && <BottomSheet toggle={toggleDepartmentsSheet} />}
-
+        {isUniversitiesOpen && (
+          <BottomSheet
+            children={<UniversityList toggle={toggleUniversitiesSheet} />}
+            toggle={toggleUniversitiesSheet}
+          />
+        )}
       </GestureHandlerRootView>
     </>
   );

@@ -1,18 +1,13 @@
 import {
   Dimensions,
-  Modal,
   Pressable,
   StyleSheet,
-  Text,
   View,
-  ScrollView,
-  TouchableOpacity,
 } from "react-native";
 import {
-  FlatList,
+ 
   Gesture,
   GestureDetector,
-  GestureHandlerRootView,
 } from "react-native-gesture-handler";
 import Animated, {
   FadeIn,
@@ -26,11 +21,11 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 
+
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
-
-const BottomSheet = ({ toggle }) => {
+const BottomSheet = ({ toggle, children }) => {
   const offset = useSharedValue(0);
 
   const translateY = useAnimatedStyle(() => ({
@@ -53,13 +48,7 @@ const BottomSheet = ({ toggle }) => {
       }
     });
 
- 
 
-  //const universityList = require("../constants/universities.json");
-  const universityList = require("../constants/universities.json");
-
-
-  
   return (
     <>
       <AnimatedPressable
@@ -75,24 +64,8 @@ const BottomSheet = ({ toggle }) => {
           style={[styles.bottomSheetContainer, translateY]}
         >
           <View style={styles.line}></View>
-          <View style={{ flex: 1 }}>
-            <FlatList
-              data={universityList}
-              contentContainerStyle={{ paddingBottom: 300 }}
-              scrollEnabled={true}
-              showsVerticalScrollIndicator={false}
-              renderItem={({item}) => (
-                <>
-                
-                  <Text style={styles.sectionHeader}>{item.name}</Text>
-                  {item.universities.map((university) => {
-                    return <TouchableOpacity onPress={()=>{toggle(university.name)}}><Text style={styles.item}>{university.name}</Text></TouchableOpacity>;
-                  })}
-                </>
-              )}
-              keyExtractor={(item) => item.id}
-            />
-          </View>
+
+          {children}
         </Animated.View>
       </GestureDetector>
     </>
@@ -109,12 +82,6 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     zIndex: 1,
   },
-  item: {
-    padding: 20,
-    fontSize: 15,
-    marginTop: 5,
-    textAlign: "center",
-  },
   line: {
     width: 75,
     height: 4,
@@ -129,15 +96,7 @@ const styles = StyleSheet.create({
     zIndex: 1,
     backgroundColor: "rgba(0,0,0,0.5)",
   },
-  sectionHeader: {
-    paddingTop: 2,
-    paddingLeft: 10,
-    paddingRight: 10,
-    paddingBottom: 2,
-    fontSize: 14,
-    fontWeight: 'bold',
-    backgroundColor: 'rgba(247,247,247,1.0)',
-  },
+ 
 });
 
 export default BottomSheet;
