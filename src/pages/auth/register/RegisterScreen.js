@@ -18,6 +18,8 @@ import RegisterStep2 from "./step2/step2";
 import RegisterStep1 from "./step1/step1";
 import RegisterStep3 from "./step3/step3";
 
+import FlashMessage, { showMessage } from "react-native-flash-message";
+
 export default function RegisterPage({ navigation }) {
   const [step, setStep] = useState(1);
   const [isPasswordSecure, setIsPasswordSecure] = useState(true);
@@ -44,10 +46,15 @@ export default function RegisterPage({ navigation }) {
       const token = response.token;
       authCtx.authenticate(token);
       navigation.navigate("LoginPage");
+      setIsLoading(false);
     } catch (error) {
-      Alert.alert("Bazı şeyler yolunda gitmedi", error, [{ text: "Tamam" }]);
+      showMessage({
+        message: "Hata!",
+        description: error,
+        type: "danger",
+      });
+      setIsLoading(false);
     }
-    setIsLoading(false);
   }
 
   const [isUniversitiesOpen, setUniversitiesOpen] = useState(false);
@@ -125,8 +132,8 @@ export default function RegisterPage({ navigation }) {
             toggle={toggleUniversitiesSheet}
           />
         )}
-
       </GestureHandlerRootView>
+      <FlashMessage position="top" />
     </>
   );
 }
@@ -150,5 +157,5 @@ const styles = StyleSheet.create({
     textAlign: "left",
     fontWeight: "700",
     fontSize: 32,
-  }
+  },
 });

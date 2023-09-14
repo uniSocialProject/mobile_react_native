@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
+import { showMessage } from "react-native-flash-message";
 import AntDesign from "react-native-vector-icons/AntDesign";
 
 const RegisterStep1 = ({
@@ -60,6 +61,8 @@ const RegisterStep1 = ({
               setIsValid(true);
             } else {
               setIsValid(false);
+
+              
             }
           }}
         >

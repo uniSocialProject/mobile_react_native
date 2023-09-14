@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { showMessage } from "react-native-flash-message";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Octicons from "react-native-vector-icons/Octicons";
 
@@ -17,7 +18,32 @@ const RegisterStep3 = ({
   isPasswordSecure,
   registerHandler,
   setIsPasswordSecure,
+  uniMail
 }) => {
+  function checkForm(data) {
+    if (data.email == "" || data.password == "") {
+      setIsValid(false);
+      return;
+    }
+    if (!data.email.includes("@")) {
+      showMessage({
+        message: "Hata!",
+        description: "Geçerli bir mail adresi giriniz.",
+        type: "danger",
+      });
+      return;
+    }
+    if (data.password.length < 6) {
+      showMessage({
+        message: "Hata!",
+        description: "Şifreniz 6 karakterden az olamaz.",
+        type: "danger",
+      });
+      return;
+    }
+    registerHandler(data);
+  }
+
   return (
     <>
       <View
@@ -71,19 +97,21 @@ const RegisterStep3 = ({
         <TouchableOpacity
           style={styles.register_button}
           onPress={() => {
-            if (data.email != "" && data.password != "") {
-              console.log(data.name);
-              console.log(data.surname);
-              console.log(data.university);
-              console.log(data.department);
-              console.log(data.email);
-              console.log(data.password);
+            checkForm(data);
+            // if (data.email != "" && data.password != "") {
+            //   console.log(data.name);
+            //   console.log(data.surname);
+            //   console.log(data.university);
+            //   console.log(data.department);
+            //   console.log(data.email);
+            //   console.log(data.password);
 
-              registerHandler(data);
-              setIsValid(true);
-            } else {
-              setIsValid(false);
-            }
+            //   registerHandler(data);
+            //   setIsValid(true);
+            // } else {
+            //   setIsValid(false);
+
+            // }
           }}
         >
           <Text style={styles.register_button_text}>Kayıt Ol</Text>
