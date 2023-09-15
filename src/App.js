@@ -11,6 +11,9 @@ import { useContext } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+
+import ProfilePage from "./pages/profilepage/ProfileScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -22,10 +25,12 @@ function AuthenticatedStack() {
       screenOptions={{
         headerShown: false,
         animation: "fade",
-        tabBarActiveTintColor: "black",
+        tabBarActiveTintColor: "#1286C8",
+        tabBarInactiveTintColor: "black",
+        tabBarShowLabel: false,
         tabBarStyle: {
-          padding:0,
-          backgroundColor: "red",
+          padding: 0,
+          backgroundColor: "white",
           borderRadius: 0,
           margin: 0, //Padding 0 here
         },
@@ -35,9 +40,19 @@ function AuthenticatedStack() {
         name="HomePage"
         component={HomePage}
         options={{
-          tabBarLabel: "Home",
+        
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="home" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="ProfilePage"
+        component={ProfilePage}
+        options={{
+         
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesome name="user" color={color} size={size} />
           ),
         }}
       />
