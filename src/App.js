@@ -9,13 +9,39 @@ import HomePage from "./pages/homepage/HomeScreen";
 import AuthContextProvider, { AuthContext } from "./store/auth-context";
 import { useContext } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+
 const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
 function AuthenticatedStack() {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false, animation: "fade" }}>
-      <Stack.Screen name="HomePage" component={HomePage} />
-    </Stack.Navigator>
+    <Tab.Navigator
+      initialRouteName="HomePage"
+      screenOptions={{
+        headerShown: false,
+        animation: "fade",
+        tabBarActiveTintColor: "black",
+        tabBarStyle: {
+          padding:0,
+          backgroundColor: "red",
+          borderRadius: 0,
+          margin: 0, //Padding 0 here
+        },
+      }}
+    >
+      <Tab.Screen
+        name="HomePage"
+        component={HomePage}
+        options={{
+          tabBarLabel: "Home",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="home" color={color} size={size} />
+          ),
+        }}
+      />
+    </Tab.Navigator>
   );
 }
 
@@ -44,7 +70,6 @@ function Navigation() {
 
 export default function App() {
   return (
-    
     <AuthContextProvider>
       <Navigation />
     </AuthContextProvider>

@@ -36,10 +36,14 @@ export default function LoginPage({ navigation }) {
       const response = await login(email, password);
       const token = response.token;
       authCtx.authenticate(token);
+      setIsLoading(false);
+
     } catch (error) {
+      console.log("hata")
       Alert.alert("Bazı şeyler yolunda gitmedi", error,[{text: "Tamam"}]);
+      setIsLoading(false);
+
     }
-    setIsLoading(false);
   }
 
 

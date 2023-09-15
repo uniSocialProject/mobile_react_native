@@ -23,28 +23,29 @@ export default function HomePage({ navigation }) {
 
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    async function getResources() {
-      setIsLoading(true);
-      try {
-        const data = await getPosts(authCtx.token);
+  async function getResources() {
+    setIsLoading(true);
+    try {
+      const data = await getPosts(authCtx.token);
 
-        setPosts(data.posts);
-        setIsLoading(false);
-      } catch (e) {
-        console.log("hata");
-        setIsLoading(false);
-      }
+      setPosts(data.posts);
+      setIsLoading(false);
+    } catch (e) {
+      console.log("hata");
+      setIsLoading(false);
     }
+  }
+
+  useEffect(() => {
     getResources();
-  }, []);
+  }, [setIsLoading]);
 
   return (
     <>
       <SafeAreaView style={{ backgroundColor: "white" }}>
         <View
           style={{
-            height: 75,
+            height: 100,
             backgroundColor: "white",
             flexDirection: "row",
             alignItems: "center",
@@ -73,6 +74,10 @@ export default function HomePage({ navigation }) {
           keyExtractor={(item) => item._id}
           data={posts}
           scrollEnabled={true}
+          refreshing={isLoading}
+          onRefresh={() => {
+            getResources();
+          }}
           contentContainerStyle={{ paddingBottom: 95 }}
           renderItem={({ item }) => {
             return (
@@ -83,7 +88,7 @@ export default function HomePage({ navigation }) {
                     backgroundColor: "white",
                     elevation: 20,
                     borderRadius: 15,
-                    padding: 15,
+                    padding: 20,
                   }}
                 >
                   {isLoading ? (
@@ -122,12 +127,20 @@ export default function HomePage({ navigation }) {
                       <View
                         style={{ paddingVertical: 10, flexDirection: "row" }}
                       >
-                        <MaterialIcons
-                          name="favorite-outline"
-                          size={30}
-                          color="black"
-                        />
-                        <MaterialIcons name="comment" size={30} color="black" />
+                        <TouchableOpacity>
+                          <MaterialIcons
+                            name="favorite-outline"
+                            size={32}
+                            color="black"
+                          />
+                        </TouchableOpacity>
+                        <TouchableOpacity>
+                          <MaterialIcons
+                            name="comment"
+                            size={32}
+                            color="black"
+                          />
+                        </TouchableOpacity>
                       </View>
                     </View>
                   )}
