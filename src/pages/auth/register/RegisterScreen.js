@@ -18,7 +18,9 @@ import RegisterStep2 from "./step2/step2";
 import RegisterStep1 from "./step1/step1";
 import RegisterStep3 from "./step3/step3";
 
+
 import FlashMessage, { showMessage } from "react-native-flash-message";
+import Stepper from "./Stepper";
 
 export default function RegisterPage({ navigation }) {
   const [step, setStep] = useState(1);
@@ -114,15 +116,12 @@ export default function RegisterPage({ navigation }) {
               />
             </View>
 
-            <View
-              style={{ flexDirection: "row", justifyContent: "space-between" }}
-            >
-              <Text style={styles.login_text}>{"Kayıt Ol"}</Text>
-              <Text style={styles.login_text}>{`${step}/3`}</Text>
-            </View>
+           <Stepper step={step} />
+         
             {step == 1 && step1}
             {step == 2 && step2}
             {step == 3 && step3}
+          
           </View>
         </SafeAreaView>
 

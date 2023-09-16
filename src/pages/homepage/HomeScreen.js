@@ -13,9 +13,10 @@ import Entypo from "react-native-vector-icons/Entypo";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import {
   deleteFavorites,
+  getDepatmentPosts,
   getFavorites,
   getPostComments,
-  getPosts,
+  getUniversityPosts,
   postFavorites,
 } from "../../util/posts";
 import MyLoader from "../../components/LoadingSkeleton";
@@ -29,7 +30,11 @@ export default function HomePage({ navigation }) {
 
   const authCtx = useContext(AuthContext);
 
-  const [posts, setPosts] = useState([1, 2, 3, 4, 5]);
+  const [uniPosts, setUniPosts] = useState([1, 2, 3, 4, 5]);
+  const [deptPosts, setDeptPosts] = useState([1, 2, 3, 4, 5]);
+
+  const [postType, setPostType] = useState(false);
+
   const [comments, setComments] = useState([]);
   const [favoritePosts, setFavoritePosts] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -67,10 +72,12 @@ export default function HomePage({ navigation }) {
   async function getResources() {
     setIsLoading(true);
     try {
-      const data = await getPosts(authCtx.token);
+      const uniPosts = await getUniversityPosts(authCtx.token);
+      const deptPosts = await getDepatmentPosts(authCtx.token);
       const favorites = await getFavorites(authCtx.token);
       setFavoritePosts(favorites.favorites);
-      setPosts(data.posts);
+      setUniPosts(uniPosts.posts.reverse());
+      setDeptPosts(deptPosts.Posts.reverse());
       setIsLoading(false);
     } catch (e) {
       console.log("hata");
@@ -122,32 +129,67 @@ export default function HomePage({ navigation }) {
             }}
           >
             <TouchableOpacity
-              style={{
-                borderRadius: 10,
-                padding: 10,
-                backgroundColor: "#1286C8",
+              style={
+                postType
+                  ? {
+                      borderRadius: 10,
+                      padding: 10,
+                      borderColor: "#1286C8",
+                      borderWidth: 2,
+                    }
+                  : {
+                      borderRadius: 10,
+                      padding: 10,
+                      backgroundColor: "#1286C8",
+                    }
+              }
+              onPress={() => {
+                setPostType(false);
               }}
             >
-              <Text style={{ fontWeight: "600", fontSize: 14, color: "white" }}>
+              <Text
+                style={{
+                  fontWeight: "600",
+                  fontSize: 14,
+                  color: postType ? "black" : "white",
+                }}
+              >
                 ÜNİVERSİTE GÖNDERİLERİ
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={{
-                borderRadius: 10,
-                padding: 10,
-                borderColor: "#1286C8",
-                borderWidth: 2,
+              style={
+                postType
+                  ? {
+                      borderRadius: 10,
+                      padding: 10,
+                      backgroundColor: "#1286C8",
+                    }
+                  : {
+                      borderRadius: 10,
+                      padding: 10,
+                      borderColor: "#1286C8",
+                      borderWidth: 2,
+                    }
+              }
+              onPress={() => {
+                setPostType(true);
               }}
             >
-              <Text style={{ fontWeight: "600", fontSize: 14 }}>
+              <Text
+                style={{
+                  fontWeight: "600",
+                  fontSize: 14,
+                  color: postType ? "white" : "black",
+                }}
+              >
                 BÖLÜM GÖNDERİLERİ
               </Text>
             </TouchableOpacity>
           </View>
           <FlatList
             keyExtractor={(item) => item._id}
-            data={posts}
+            data={postType ? deptPosts : uniPosts}
             scrollEnabled={true}
             refreshing={isLoading}
             onRefresh={() => {

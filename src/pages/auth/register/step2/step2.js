@@ -14,16 +14,11 @@ const RegisterStep2 = ({
         style={{
           flexDirection: "row",
           alignItems: "center",
-          paddingBottom: 20,
+          paddingVertical: 20,
         }}
       >
         <Text style={styles.step_info}>Okul Bilgileri</Text>
-        <Ionicons
-          name="school"
-          size={20}
-          color="black"
-          style={{ paddingHorizontal: 5 }}
-        />
+      
       </View>
 
       <TouchableOpacity

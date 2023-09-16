@@ -50,7 +50,7 @@ const RegisterStep3 = ({
         style={{
           flexDirection: "row",
           alignItems: "center",
-          paddingBottom: 20,
+          paddingVertical: 20,
         }}
       >
         <Text style={styles.step_info}>Giriş Bilgileri</Text>

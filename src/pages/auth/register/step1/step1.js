@@ -22,16 +22,11 @@ const RegisterStep1 = ({
         style={{
           flexDirection: "row",
           alignItems: "center",
-          paddingBottom: 20,
+          paddingVertical: 20,
         }}
       >
         <Text style={styles.step_info}>Öğrenci Bilgileri</Text>
-        <AntDesign
-          name="user"
-          size={20}
-          color="black"
-          style={{ paddingHorizontal: 5 }}
-        />
+       
       </View>
 
       <View style={styles.input_container}>
