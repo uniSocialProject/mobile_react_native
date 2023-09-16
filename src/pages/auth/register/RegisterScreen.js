@@ -9,18 +9,18 @@ import {
 } from "react-native";
 
 import { register } from "../../../util/auth";
-import LoadingOverlay from "../../../components/LoadingOverlay";
+import LoadingOverlay from "../../../components/ui/LoadingOverlay";
 import { AuthContext } from "../../../store/auth-context";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import BottomSheet from "../../../components/BottomSheet";
-import UniversityList from "./step2/universities";
-import RegisterStep2 from "./step2/step2";
-import RegisterStep1 from "./step1/step1";
-import RegisterStep3 from "./step3/step3";
-
+import BottomSheet from "../../../components/ui/BottomSheet";
+import UniversityList from "../../../components/register-page/universities";
+import RegisterStep2 from "./steps/Step-2";
+import RegisterStep1 from "./steps/Step-1";
+import RegisterStep3 from "./steps/Step-3";
 
 import FlashMessage, { showMessage } from "react-native-flash-message";
-import Stepper from "./Stepper";
+import Stepper from "../../../components/register-page/Stepper";
+import Logo from "../../../components/ui/Logo";
 
 export default function RegisterPage({ navigation }) {
   const [step, setStep] = useState(1);
@@ -109,19 +109,13 @@ export default function RegisterPage({ navigation }) {
 
         <SafeAreaView style={styles.safearea_container}>
           <View style={styles.container}>
-            <View style={styles.logo_container}>
-              <Image
-                style={styles.logo}
-                source={require("../../../assets/images/logo.png")}
-              />
-            </View>
+            <Logo width={300} height={130} />
 
-           <Stepper step={step} />
-         
+            <Stepper step={step} />
+
             {step == 1 && step1}
             {step == 2 && step2}
             {step == 3 && step3}
-          
           </View>
         </SafeAreaView>
 
@@ -144,13 +138,6 @@ const styles = StyleSheet.create({
   safearea_container: {
     flex: 1,
     justifyContent: "center",
-  },
-  logo_container: {
-    alignItems: "center",
-  },
-  logo: {
-    height: 130,
-    width: 300,
   },
   login_text: {
     textAlign: "left",

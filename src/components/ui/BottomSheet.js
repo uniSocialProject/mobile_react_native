@@ -37,11 +37,12 @@ const BottomSheet = ({ toggle, children }) => {
       const offsetData = event.changeY + offset.value;
       const clamp = Math.max(-SCREEN_HEIGHT / 0.2, offsetData);
       offset.value = offsetData > 0 ? offsetData : withSpring(clamp);
+      console.log(offset.value)
     })
     .onFinalize(() => {
       if (offset.value < SCREEN_HEIGHT / 3) {
         offset.value = withSpring(0);
-      } else {
+      }else {
         offset.value = withTiming(SCREEN_HEIGHT, {}, () => {
           runOnJS(toggle)();
         });
@@ -78,7 +79,7 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: "white",
     position: "absolute",
-    top: SCREEN_HEIGHT / 2.5,
+    top: SCREEN_HEIGHT / 3.5,
     borderRadius: 25,
     zIndex: 1,
   },

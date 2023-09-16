@@ -23,7 +23,7 @@ function LoadingOverlay(props) {
       >
           <Image
             style={styles.logo}
-            source={require("../assets/gifs/loadingSpinnerGif.gif")}
+            source={require("../../assets/gifs/loadingSpinnerGif.gif")}
           />
       </View>
     </Modal>

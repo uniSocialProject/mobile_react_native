@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import {
   Button,
   FlatList,
@@ -13,17 +13,20 @@ import Entypo from "react-native-vector-icons/Entypo";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import {
   deleteFavorites,
-  getDepatmentPosts,
+  getDepartmentPosts,
   getFavorites,
   getPostComments,
   getUniversityPosts,
   postFavorites,
 } from "../../util/posts";
-import MyLoader from "../../components/LoadingSkeleton";
+import MyLoader from "../../components/ui/LoadingSkeleton";
 import LottieView from "lottie-react-native";
-import BottomSheet from "../../components/BottomSheet";
+import BottomSheet from "../../components/ui/BottomSheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Comments from "./comments/Comments";
+
+import Ionicons from "react-native-vector-icons/Ionicons";
+
 export default function HomePage({ navigation }) {
   const src =
     "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
@@ -39,6 +42,8 @@ export default function HomePage({ navigation }) {
   const [favoritePosts, setFavoritePosts] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+
+
 
   async function toggleComments(postId) {
     if (!isOpen) {
@@ -73,7 +78,7 @@ export default function HomePage({ navigation }) {
     setIsLoading(true);
     try {
       const uniPosts = await getUniversityPosts(authCtx.token);
-      const deptPosts = await getDepatmentPosts(authCtx.token);
+      const deptPosts = await getDepartmentPosts(authCtx.token);
       const favorites = await getFavorites(authCtx.token);
       setFavoritePosts(favorites.favorites);
       setUniPosts(uniPosts.posts.reverse());
@@ -92,7 +97,7 @@ export default function HomePage({ navigation }) {
   return (
     <>
       <GestureHandlerRootView style={{ flex: 1 }}>
-        <SafeAreaView style={{ backgroundColor: "white" }}>
+        <SafeAreaView style={{ backgroundColor: "#EFECF4" }}>
           <View
             style={{
               height: 100,
@@ -217,28 +222,48 @@ export default function HomePage({ navigation }) {
                         <View
                           style={{
                             flexDirection: "row",
-                            alignItems: "center",
+                            alignItems: "flex-start",
+                            justifyContent: "space-between",
                             backgroundColor: "white",
                             paddingVertical: 15,
                           }}
                         >
+                          <View style={{flexDirection: "row"}}>
                           <Image
                             style={{ width: 50, height: 50 }}
                             source={{ uri: src }}
                           />
-                          <Text
-                            style={{
-                              fontSize: 18,
-                              paddingLeft: 10,
-                              fontWeight: "600",
-                            }}
-                          >
-                            {item.title}
-                          </Text>
+                          <View>
+                            <Text
+                              style={{
+                                fontSize: 18,
+                                paddingLeft: 10,
+                                fontWeight: "600",
+                              }}
+                            >
+                              {item.title}
+                            </Text>
+                            <Text
+                              style={{
+                                fontSize: 16,
+                                paddingLeft: 10,
+                                fontWeight: "400",
+                                color: "grey",
+                              }}
+                            >
+                              @eraybuyukkanat
+                            </Text>
+                            </View>
+                          </View>
+                          <Ionicons
+                            name="ellipsis-vertical"
+                            size={24}
+                            color="black"
+                          />
                         </View>
 
                         <View style={{ paddingVertical: 10 }}>
-                          <Text style={{ fontSize: 17 }}>{item.content}</Text>
+                          <Text style={{ fontSize: 19 }}>{item.content}</Text>
                         </View>
 
                         <View
@@ -252,7 +277,7 @@ export default function HomePage({ navigation }) {
                             >
                               <MaterialIcons
                                 name="favorite"
-                                size={32}
+                                size={34}
                                 color="red"
                               />
                             </TouchableOpacity>
@@ -265,19 +290,20 @@ export default function HomePage({ navigation }) {
                             >
                               <MaterialIcons
                                 name="favorite-outline"
-                                size={32}
+                                size={34}
                                 color="black"
                               />
                             </TouchableOpacity>
                           )}
                           <TouchableOpacity
+                          style={{paddingHorizontal: 10}}
                             onPress={() => {
                               toggleComments(item._id);
                             }}
                           >
                             <MaterialIcons
                               name="comment"
-                              size={32}
+                              size={34}
                               color="black"
                             />
                           </TouchableOpacity>

@@ -21,7 +21,7 @@ export async function getUniversityPosts(token) {
     
   }
 
-  export async function getDepatmentPosts(token) {
+  export async function getDepartmentPosts(token) {
  
     
     try {
@@ -91,6 +91,21 @@ export async function getUniversityPosts(token) {
     
     try {
       const response = await axios.get(baseURL + "/comments/"+postId,{
+        headers: {"authorization": `Bearer ${await token}`}
+      })
+      return response.data;
+    } catch (e) {
+      throw e.response.data.message;
+    }
+    
+  }
+
+  
+  export async function postPostComments(token,postId,content) {
+ 
+    
+    try {
+      const response = await axios.post(baseURL + "/postComment/"+postId,{'description':content},{
         headers: {"authorization": `Bearer ${await token}`}
       })
       return response.data;

@@ -12,11 +12,14 @@ import {
   View,
 } from "react-native";
 
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import Octicons from "react-native-vector-icons/Octicons";
 import { login } from "../../../util/auth";
-import LoadingOverlay from "../../../components/LoadingOverlay";
+import LoadingOverlay from "../../../components/ui/LoadingOverlay";
 import { AuthContext } from "../../../store/auth-context";
+import Logo from "../../../components/ui/Logo";
+import LoginText from "../../../components/login-page/LoginText";
+import LoginEmailInput from "../../../components/login-page/LoginEmailInput";
+import LoginPasswordInput from "../../../components/login-page/LoginPasswordInput";
+import ForgotPasswordText from "../../../components/login-page/ForgotPasswordText";
 export default function LoginPage({ navigation }) {
   const authCtx = useContext(AuthContext);
 
@@ -37,77 +40,35 @@ export default function LoginPage({ navigation }) {
       const token = response.token;
       authCtx.authenticate(token);
       setIsLoading(false);
-
     } catch (error) {
-      console.log("hata")
-      Alert.alert("Bazı şeyler yolunda gitmedi", error,[{text: "Tamam"}]);
+      console.log("hata");
+      Alert.alert("Bazı şeyler yolunda gitmedi", error, [{ text: "Tamam" }]);
       setIsLoading(false);
-
     }
   }
-
 
   return (
     <>
       {isLoading && <LoadingOverlay />}
 
       <View style={styles.safearea_container}>
-
         <View style={styles.container}>
-          <View style={styles.logo_container}>
-            <Image
-              style={styles.logo}
-              source={require("../../../assets/images/logo.png")}
-            />
-          </View>
 
-          <Text style={styles.login_text}>Giriş Yap</Text>
-          <View style={styles.input_container}>
-            <TextInput
-              style={isValid ? styles.input : styles.input_error}
-              value={data.email}
-              onChangeText={(value) => {
-                setData({ ...data, email: value });
-              }}
-              placeholder="Email"
-            />
-            <MaterialIcons
-              name="alternate-email"
-              size={20}
-              color="black"
-              style={styles.icon}
-            />
-          </View>
-          <View style={styles.input_container}>
-            <TextInput
-              style={isValid ? styles.input : styles.input_error}
-              onChangeText={(value) => {
-                setData({ ...data, password: value });
-              }}
-              value={data.password}
-              placeholder="Şifre"
-              secureTextEntry={isPasswordSecure}
-            />
-            <TouchableOpacity
-              onPress={() => {
-                isPasswordSecure
-                  ? setIsPasswordSecure(false)
-                  : setIsPasswordSecure(true);
-              }}
-            >
-              <Octicons
-                name={isPasswordSecure ? "eye-closed" : "eye"}
-                size={20}
-                color="black"
-                style={styles.icon}
-              />
-            </TouchableOpacity>
-          </View>
-          <View>
-            <TouchableOpacity>
-              <Text style={styles.forgot_passwd}>Şifrenizi mi unuttunuz?</Text>
-            </TouchableOpacity>
-          </View>
+          <Logo width={300} height={130} />
+
+          <LoginText />
+          
+          <LoginEmailInput data={data} setData={setData} isValid={isValid} />
+          
+          <LoginPasswordInput
+            data={data}
+            setData={setData}
+            isPasswordSecure={isPasswordSecure}
+            isValid={isValid}
+            setIsPasswordSecure={setIsPasswordSecure}
+          />
+
+         <ForgotPasswordText />
 
           <View>
             <TouchableOpacity
@@ -152,45 +113,7 @@ const styles = StyleSheet.create({
   logo_container: {
     alignItems: "center",
   },
-  logo: {
-    height: 130,
-    width: 300,
-  },
-  login_text: {
-    textAlign: "left",
-    fontWeight: "700",
-    fontSize: 32,
-    paddingVertical: 10,
-  },
-  input_container: {
-    flexDirection: "row",
-    paddingVertical: 0,
-    alignItems: "center",
-    marginVertical: 10,
-  },
-  icon: {
-    marginHorizontal: 10,
-  },
-  input: {
-    height: 45,
-    borderRadius: 10,
-    borderWidth: 1,
-    padding: 10,
-    flex: 1,
-  },
-  input_error: {
-    height: 45,
-    borderRadius: 10,
-    borderWidth: 2,
-    padding: 10,
-    flex: 1,
-    borderColor: "red",
-  },
-  forgot_passwd: {
-    fontSize: 18,
-    fontWeight: "500",
-    color: "#1286C8",
-  },
+ 
   login_button: {
     alignItems: "center",
     margin: 20,
