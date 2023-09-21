@@ -4,7 +4,7 @@ import { FlatList } from "react-native-gesture-handler";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 const UniversityList = ({ toggle }) => {
-  const universities = require("../../constants/universities.json");
+  const universities = require("../../../constants/universities.json");
 
   const [university, setUniversity] = useState(undefined);
 

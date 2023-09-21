@@ -88,10 +88,76 @@
       },
       {
         "id": 3,
-        "province": "ISTANBUL",
+        "province": "TEST PROVINCE",
         "universities":[
           {
-            "name": "test",
+            "name": "TEST UNIVERSITY",
+            "phone": "0 (322) 455 00 01",
+            "fax": "0 (322) 455 00 02",
+            "website": "http://www.adanabtu.edu.tr",
+            "email": "rektorluk@adanabtu.edu.tr",
+            "adress": "TRABZON",
+            "rector": "MEHMET TÜMAY",
+            "faculties":[
+              {
+                  "name": "Engineering Faculty",
+                  "departments":[
+                      {
+                          "name": "Computer Engineering"
+                      },
+                      {
+                          "name": "Mechanical Enginering"
+                      }
+                  ]
+              },
+              {
+                  "name": "X Faculty",
+                  "departments":[
+                      {
+                          "name": "X Department"
+                      },
+                      {
+                          "name": "Y Department"
+                      }
+                  ]
+              }
+            ]
+          },
+          {
+            "name": "TEST UNIVERSITY 2",
+            "phone": "0 (322) 455 00 01",
+            "fax": "0 (322) 455 00 02",
+            "website": "http://www.adanabtu.edu.tr",
+            "email": "rektorluk@adanabtu.edu.tr",
+            "adress": "TRABZON",
+            "rector": "MEHMET TÜMAY",
+            "faculties":[
+              {
+                  "name": "Engineering Faculty",
+                  "departments":[
+                      {
+                          "name": "Computer Engineering"
+                      },
+                      {
+                          "name": "Mechanical Enginering"
+                      }
+                  ]
+              },
+              {
+                  "name": "X Faculty",
+                  "departments":[
+                      {
+                          "name": "X Department"
+                      },
+                      {
+                          "name": "Y Department"
+                      }
+                  ]
+              }
+            ]
+          },
+          {
+            "name": "TEST UNIVERSITY 3",
             "phone": "0 (322) 455 00 01",
             "fax": "0 (322) 455 00 02",
             "website": "http://www.adanabtu.edu.tr",
@@ -127,69 +193,30 @@
       },
       {
         "id": 4,
-        "province": "ISTANBUL",
+        "province": "TEST PROVINCE 2",
         "universities":[
           {
-            "name": "test",
+            "name": "TEST UNIVERSITY",
             "phone": "0 (322) 455 00 01",
             "fax": "0 (322) 455 00 02",
             "website": "http://www.adanabtu.edu.tr",
-            "email": "rektorluk@adanabtu.edu.tr",
+            "email": "@ktu.edu.tr",
             "adress": "TRABZON",
             "rector": "MEHMET TÜMAY",
             "faculties":[
               {
-                  "name": "Engineering Faculty",
+                  "name": "Faculty of Engineering",
                   "departments":[
                       {
                           "name": "Computer Engineering"
                       },
                       {
-                          "name": "Mechanical Enginering"
+                          "name": "Industrial Enginering"
                       }
                   ]
               },
               {
-                  "name": "X Faculty",
-                  "departments":[
-                      {
-                          "name": "X Department"
-                      },
-                      {
-                          "name": "Y Department"
-                      }
-                  ]
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "id": 5,
-        "province": "ISTANBUL",
-        "universities":[
-          {
-            "name": "test",
-            "phone": "0 (322) 455 00 01",
-            "fax": "0 (322) 455 00 02",
-            "website": "http://www.adanabtu.edu.tr",
-            "email": "rektorluk@adanabtu.edu.tr",
-            "adress": "TRABZON",
-            "rector": "MEHMET TÜMAY",
-            "faculties":[
-              {
-                  "name": "Engineering Faculty",
-                  "departments":[
-                      {
-                          "name": "Computer Engineering"
-                      },
-                      {
-                          "name": "Mechanical Enginering"
-                      }
-                  ]
-              },
-              {
-                  "name": "X Faculty",
+                  "name": "Faculty of Pharmacy",
                   "departments":[
                       {
                           "name": "X Department"
@@ -203,4 +230,5 @@
           }
         ]
       }
+     
 ]

@@ -18,12 +18,13 @@ import {
   getPostComments,
   getUniversityPosts,
   postFavorites,
-} from "../../util/posts";
+  postPostComments,
+} from "../../service/feed/posts";
 import MyLoader from "../../components/ui/LoadingSkeleton";
 import LottieView from "lottie-react-native";
 import BottomSheet from "../../components/ui/BottomSheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import Comments from "./comments/Comments";
+import Comments from "./comments/comments";
 
 import Ionicons from "react-native-vector-icons/Ionicons";
 
@@ -43,10 +44,11 @@ export default function HomePage({ navigation }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-
+  const [postId, setPostId] = useState("");
 
   async function toggleComments(postId) {
     if (!isOpen) {
+      setPostId(postId);
       await getCommentsHandler(postId);
     }
     setIsOpen(!isOpen);
@@ -54,9 +56,14 @@ export default function HomePage({ navigation }) {
     console.log(isOpen);
   }
 
+  async function postCommentHandler(content) {
+    await postPostComments(authCtx.token, postId, content);
+    getCommentsHandler(postId);
+  }
+
   async function getCommentsHandler(postId) {
     const comments = await getPostComments(authCtx.token, postId);
-    setComments(comments.comments);
+    setComments(comments.comments.reverse());
 
     console.log(comments.comments);
   }
@@ -228,31 +235,31 @@ export default function HomePage({ navigation }) {
                             paddingVertical: 15,
                           }}
                         >
-                          <View style={{flexDirection: "row"}}>
-                          <Image
-                            style={{ width: 50, height: 50 }}
-                            source={{ uri: src }}
-                          />
-                          <View>
-                            <Text
-                              style={{
-                                fontSize: 18,
-                                paddingLeft: 10,
-                                fontWeight: "600",
-                              }}
-                            >
-                              {item.title}
-                            </Text>
-                            <Text
-                              style={{
-                                fontSize: 16,
-                                paddingLeft: 10,
-                                fontWeight: "400",
-                                color: "grey",
-                              }}
-                            >
-                              @eraybuyukkanat
-                            </Text>
+                          <View style={{ flexDirection: "row" }}>
+                            <Image
+                              style={{ width: 50, height: 50 }}
+                              source={{ uri: src }}
+                            />
+                            <View>
+                              <Text
+                                style={{
+                                  fontSize: 18,
+                                  paddingLeft: 10,
+                                  fontWeight: "600",
+                                }}
+                              >
+                                {item.title}
+                              </Text>
+                              <Text
+                                style={{
+                                  fontSize: 16,
+                                  paddingLeft: 10,
+                                  fontWeight: "400",
+                                  color: "grey",
+                                }}
+                              >
+                                @eraybuyukkanat
+                              </Text>
                             </View>
                           </View>
                           <Ionicons
@@ -296,7 +303,7 @@ export default function HomePage({ navigation }) {
                             </TouchableOpacity>
                           )}
                           <TouchableOpacity
-                          style={{paddingHorizontal: 10}}
+                            style={{ paddingHorizontal: 10 }}
                             onPress={() => {
                               toggleComments(item._id);
                             }}
@@ -319,7 +326,11 @@ export default function HomePage({ navigation }) {
           {isOpen && (
             <BottomSheet
               children={
-                <Comments comments={comments} toggle={toggleComments} />
+                <Comments
+                  comments={comments}
+                  postCommentHandler={postCommentHandler}
+                  toggle={toggleComments}
+                />
               }
               toggle={toggleComments}
             />

@@ -12,14 +12,14 @@ import {
   View,
 } from "react-native";
 
-import { login } from "../../../util/auth";
-import LoadingOverlay from "../../../components/ui/LoadingOverlay";
-import { AuthContext } from "../../../store/auth-context";
-import Logo from "../../../components/ui/Logo";
-import LoginText from "../../../components/login-page/LoginText";
-import LoginEmailInput from "../../../components/login-page/LoginEmailInput";
-import LoginPasswordInput from "../../../components/login-page/LoginPasswordInput";
-import ForgotPasswordText from "../../../components/login-page/ForgotPasswordText";
+import { login } from "../../service/auth/auth";
+import LoadingOverlay from "../../components/ui/LoadingOverlay";
+import { AuthContext } from "../../store/auth-context";
+import Logo from "../../components/ui/Logo";
+import LoginText from "./components/login-text";
+import LoginEmailInput from "./components/email-input";
+import LoginPasswordInput from "./components/password-input";
+import ForgotPasswordText from "./components/forgot-passwd-text";
 export default function LoginPage({ navigation }) {
   const authCtx = useContext(AuthContext);
 

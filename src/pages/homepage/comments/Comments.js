@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
-export default function Comments({ comments, postCommentsHandler }) {
+export default function Comments({ comments, postCommentHandler }) {
 
   const [comment,setComment] = useState("");
 
@@ -18,7 +18,7 @@ export default function Comments({ comments, postCommentsHandler }) {
           onChangeText={(value) =>{setComment(value)}}
           placeholder="Yorum..."
         />
-      <TouchableOpacity onPress={()=>{}}>
+      <TouchableOpacity onPress={()=>{postCommentHandler(comment); setComment("")}}>
         <View style={{borderRadius: 5, borderWidth: 2,padding: 10,marginHorizontal: 10}}>
         <Text>PAYLAŞ</Text>
         </View>

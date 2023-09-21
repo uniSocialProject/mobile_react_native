@@ -92,9 +92,3 @@ export default function Stepper({step}) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-    stepper_container: {
-        
-    }
-  });
