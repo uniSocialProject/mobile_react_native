@@ -1,4 +1,6 @@
 import { useContext, useEffect, useRef, useState } from "react";
+import Heart from "react-animated-heart";
+
 import {
   Button,
   FlatList,
@@ -45,6 +47,8 @@ export default function HomePage({ navigation }) {
   const [isLoading, setIsLoading] = useState(true);
 
   const [postId, setPostId] = useState("");
+
+  const [isClick, setClick] = useState(false);
 
   async function toggleComments(postId) {
     if (!isOpen) {
@@ -260,6 +264,9 @@ export default function HomePage({ navigation }) {
                               >
                                 @eraybuyukkanat
                               </Text>
+                         
+
+                         
                             </View>
                           </View>
                           <Ionicons
@@ -302,6 +309,7 @@ export default function HomePage({ navigation }) {
                               />
                             </TouchableOpacity>
                           )}
+                       
                           <TouchableOpacity
                             style={{ paddingHorizontal: 10 }}
                             onPress={() => {

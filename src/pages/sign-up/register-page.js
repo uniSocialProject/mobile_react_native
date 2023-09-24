@@ -23,6 +23,7 @@ import Stepper from "./components/stepper-icons";
 import Logo from "../../components/ui/Logo";
 
 export default function RegisterPage({ navigation }) {
+  
   const [step, setStep] = useState(1);
   const [isPasswordSecure, setIsPasswordSecure] = useState(true);
 
@@ -139,9 +140,5 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
   },
-  login_text: {
-    textAlign: "left",
-    fontWeight: "700",
-    fontSize: 32,
-  },
+ 
 });

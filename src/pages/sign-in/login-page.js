@@ -20,7 +20,12 @@ import LoginText from "./components/login-text";
 import LoginEmailInput from "./components/email-input";
 import LoginPasswordInput from "./components/password-input";
 import ForgotPasswordText from "./components/forgot-passwd-text";
+import LoginButton from "./components/login-button";
+import RegisterButton from "./components/register-button";
+import FlashMessage, { showMessage } from "react-native-flash-message";
 export default function LoginPage({ navigation }) {
+
+
   const authCtx = useContext(AuthContext);
 
   const [isPasswordSecure, setIsPasswordSecure] = useState(true);
@@ -33,6 +38,7 @@ export default function LoginPage({ navigation }) {
   const [isValid, setIsValid] = useState(true);
 
   const [isLoading, setIsLoading] = useState(false);
+
   async function loginHandler(email, password) {
     setIsLoading(true);
     try {
@@ -42,7 +48,11 @@ export default function LoginPage({ navigation }) {
       setIsLoading(false);
     } catch (error) {
       console.log("hata");
-      Alert.alert("Bazı şeyler yolunda gitmedi", error, [{ text: "Tamam" }]);
+      showMessage({
+        message: "Hata!",
+        description: error,
+        type: "danger",
+      });
       setIsLoading(false);
     }
   }
@@ -53,13 +63,12 @@ export default function LoginPage({ navigation }) {
 
       <View style={styles.safearea_container}>
         <View style={styles.container}>
-
           <Logo width={300} height={130} />
 
           <LoginText />
-          
+
           <LoginEmailInput data={data} setData={setData} isValid={isValid} />
-          
+
           <LoginPasswordInput
             data={data}
             setData={setData}
@@ -68,36 +77,19 @@ export default function LoginPage({ navigation }) {
             setIsPasswordSecure={setIsPasswordSecure}
           />
 
-         <ForgotPasswordText />
+          <ForgotPasswordText />
 
-          <View>
-            <TouchableOpacity
-              style={styles.login_button}
-              onPress={() => {
-                if (data.email != "" && data.password != "") {
-                  console.log(data.email, data.password);
-                  loginHandler(data.email, data.password);
-                  setData({ email: "", password: "" });
-                  setIsValid(true);
-                } else {
-                  setIsValid(false);
-                }
-              }}
-            >
-              <Text style={styles.login_button_text}>Giriş Yap</Text>
-            </TouchableOpacity>
+          <LoginButton
+            setIsValid={setIsValid}
+            data={data}
+            setData={setData}
+            loginHandler={loginHandler}
+          />
 
-            <TouchableOpacity
-              style={styles.register_button}
-              onPress={() => navigation.navigate("RegisterPage")}
-            >
-              <Text style={styles.register_button_text}>
-                Hesabınız yoksa kayıt olun!
-              </Text>
-            </TouchableOpacity>
-          </View>
+          <RegisterButton navigation={navigation} />
         </View>
       </View>
+      <FlashMessage position="top" />
     </>
   );
 }
@@ -109,29 +101,5 @@ const styles = StyleSheet.create({
   safearea_container: {
     flex: 1,
     justifyContent: "center",
-  },
-  logo_container: {
-    alignItems: "center",
-  },
- 
-  login_button: {
-    alignItems: "center",
-    margin: 20,
-    padding: 20,
-    backgroundColor: "#1286C8",
-    borderRadius: 10,
-  },
-  login_button_text: {
-    fontWeight: "600",
-    fontSize: 18,
-    color: "white",
-  },
-  register_button: {
-    alignItems: "center",
-  },
-  register_button_text: {
-    fontSize: 18,
-    color: "#1286C8",
-    fontWeight: "600",
   },
 });
