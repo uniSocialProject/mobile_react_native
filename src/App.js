@@ -14,9 +14,24 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 import ProfilePage from "./pages/profile/profile-page";
+import SharePostPage from "./pages/homepage/share-post/share-post-page"
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+
+function HomeStack() {
+  return (
+    <Stack.Navigator
+      screenOptions={{ headerShown: false, animation: "fade" }}
+      initialRouteName="HomePage"
+    >
+
+      <Stack.Screen name="SharePostPage" component={SharePostPage} />
+      <Stack.Screen name="HomePage" component={HomePage} />
+
+    </Stack.Navigator>
+  );
+}
 
 function AuthenticatedStack() {
   return (
@@ -37,10 +52,9 @@ function AuthenticatedStack() {
       }}
     >
       <Tab.Screen
-        name="HomePage"
-        component={HomePage}
+        name="HomeTab"
+        component={HomeStack}
         options={{
-        
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="home" color={color} size={size} />
           ),
@@ -50,7 +64,6 @@ function AuthenticatedStack() {
         name="ProfilePage"
         component={ProfilePage}
         options={{
-         
           tabBarIcon: ({ color, size }) => (
             <FontAwesome name="user" color={color} size={size} />
           ),

@@ -126,14 +126,24 @@ export default function HomePage({ navigation }) {
               source={require("../../assets/images/logo.png")}
             />
 
-            <TouchableOpacity
-              onPress={() => {
-                //getPosts(authCtx.token);
-                authCtx.logout();
-              }}
-            >
-              <Entypo name="message" size={30} color="black" />
-            </TouchableOpacity>
+            <View style={{ flexDirection: "row" }}>
+              <TouchableOpacity
+                onPress={() => {
+                  //getPosts(authCtx.token);
+                  navigation.navigate('SharePostPage')
+                }}
+              >
+                <Entypo name="plus" size={30} color="black" />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  //getPosts(authCtx.token);
+                  authCtx.logout();
+                }}
+              >
+                <Entypo name="message" size={30} color="black" />
+              </TouchableOpacity>
+            </View>
           </View>
           <View
             style={{
@@ -264,9 +274,6 @@ export default function HomePage({ navigation }) {
                               >
                                 @eraybuyukkanat
                               </Text>
-                         
-
-                         
                             </View>
                           </View>
                           <Ionicons
@@ -309,7 +316,7 @@ export default function HomePage({ navigation }) {
                               />
                             </TouchableOpacity>
                           )}
-                       
+
                           <TouchableOpacity
                             style={{ paddingHorizontal: 10 }}
                             onPress={() => {
