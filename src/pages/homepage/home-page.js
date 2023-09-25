@@ -169,13 +169,15 @@ export default function HomePage({ navigation }) {
                   ? {
                       borderRadius: 10,
                       padding: 10,
+             
                       borderColor: "#1286C8",
-                      borderWidth: 2,
+                      borderBottomWidth: 2,
                     }
                   : {
                       borderRadius: 10,
                       padding: 10,
                       backgroundColor: "#1286C8",
+                      
                     }
               }
               onPress={() => {
@@ -184,8 +186,9 @@ export default function HomePage({ navigation }) {
             >
               <Text
                 style={{
-                  fontWeight: "600",
-                  fontSize: 14,
+                  fontFamily: "MontserratAlternates-SemiBold",
+
+                  fontSize: 12,
                   color: postType ? "black" : "white",
                 }}
               >
@@ -204,7 +207,7 @@ export default function HomePage({ navigation }) {
                       borderRadius: 10,
                       padding: 10,
                       borderColor: "#1286C8",
-                      borderWidth: 2,
+                      borderBottomWidth: 2,
                     }
               }
               onPress={() => {
@@ -213,8 +216,8 @@ export default function HomePage({ navigation }) {
             >
               <Text
                 style={{
-                  fontWeight: "600",
-                  fontSize: 14,
+                  fontFamily: "MontserratAlternates-SemiBold",
+                  fontSize: 12,
                   color: postType ? "white" : "black",
                 }}
               >
