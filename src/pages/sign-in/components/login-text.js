@@ -9,7 +9,8 @@ export default LoginText;
 const styles = StyleSheet.create({
     login_text: {
         textAlign: "left",
-        fontWeight: "700",
+      
+        fontFamily: 'MontserratAlternates-Medium',
         fontSize: 32,
         paddingVertical: 10,
       }

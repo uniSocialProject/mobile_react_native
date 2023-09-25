@@ -12,6 +12,8 @@ import {
 } from "react-native";
 import { AuthContext } from "../../store/auth-context";
 import Entypo from "react-native-vector-icons/Entypo";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import {
   deleteFavorites,
@@ -26,7 +28,7 @@ import MyLoader from "../../components/ui/LoadingSkeleton";
 import LottieView from "lottie-react-native";
 import BottomSheet from "../../components/ui/BottomSheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import Comments from "./comments/comments";
+import Comments from "./comments/Comments";
 
 import Ionicons from "react-native-vector-icons/Ionicons";
 
@@ -107,8 +109,8 @@ export default function HomePage({ navigation }) {
 
   return (
     <>
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <SafeAreaView style={{ backgroundColor: "#EFECF4" }}>
+      <GestureHandlerRootView style={{ flex: 1, backgroundColor: "white" }}>
+        <SafeAreaView>
           <View
             style={{
               height: 100,
@@ -116,7 +118,6 @@ export default function HomePage({ navigation }) {
               flexDirection: "row",
               alignItems: "center",
               justifyContent: "space-between",
-              elevation: 10,
               paddingTop: 15,
               paddingHorizontal: 10,
             }}
@@ -130,10 +131,10 @@ export default function HomePage({ navigation }) {
               <TouchableOpacity
                 onPress={() => {
                   //getPosts(authCtx.token);
-                  navigation.navigate('SharePostPage')
+                  navigation.navigate("SharePostPage");
                 }}
               >
-                <Entypo name="plus" size={30} color="black" />
+                <Entypo name="plus" size={30} color="#1286C8" />
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
@@ -141,17 +142,25 @@ export default function HomePage({ navigation }) {
                   authCtx.logout();
                 }}
               >
-                <Entypo name="message" size={30} color="black" />
+                <Entypo
+                  name="message"
+                  style={{ paddingHorizontal: 10 }}
+                  size={30}
+                  color="#1286C8"
+                />
               </TouchableOpacity>
             </View>
           </View>
           <View
             style={{
-              padding: 10,
+              paddingBottom: 15,
+
               flexDirection: "row",
               justifyContent: "space-around",
               alignContent: "center",
               alignItems: "center",
+              borderBottomWidth: 1,
+              borderBottomColor: "#1286C8",
             }}
           >
             <TouchableOpacity
@@ -229,8 +238,9 @@ export default function HomePage({ navigation }) {
                     style={{
                       margin: 5,
                       backgroundColor: "white",
-                      elevation: 20,
                       borderRadius: 15,
+                      borderBottomWidth: 1,
+                      borderBottomColor: "#1286C8",
                       padding: 20,
                     }}
                   >
@@ -249,17 +259,17 @@ export default function HomePage({ navigation }) {
                             paddingVertical: 15,
                           }}
                         >
-                          <View style={{ flexDirection: "row" }}>
+                          <View style={{ flexDirection: "row", alignItems: "center" }}>
                             <Image
-                              style={{ width: 50, height: 50 }}
+                              style={{ width: 35, height: 35 }}
                               source={{ uri: src }}
                             />
-                            <View>
+                            <View style={{justifyContent: "space-between"}}>
                               <Text
                                 style={{
-                                  fontSize: 18,
+                                  fontSize: 16,
                                   paddingLeft: 10,
-                                  fontWeight: "600",
+                                  fontFamily: "MontserratAlternates-SemiBold"
                                 }}
                               >
                                 {item.title}
@@ -268,66 +278,81 @@ export default function HomePage({ navigation }) {
                                 style={{
                                   fontSize: 16,
                                   paddingLeft: 10,
-                                  fontWeight: "400",
+                                  fontFamily: "MontserratAlternates-MediumItalic",
                                   color: "grey",
                                 }}
                               >
-                                @eraybuyukkanat
+                                5 dakika önce
                               </Text>
                             </View>
                           </View>
                           <Ionicons
                             name="ellipsis-vertical"
-                            size={24}
+                            size={20}
                             color="black"
                           />
                         </View>
 
-                        <View style={{ paddingVertical: 10 }}>
-                          <Text style={{ fontSize: 19 }}>{item.content}</Text>
+                        <View style={{ paddingTop: 5,paddingBottom: 15 }}>
+                          <Text style={{ fontSize: 18,  fontFamily: "MontserratAlternates-Medium" }}>{item.content}</Text>
                         </View>
 
                         <View
-                          style={{ paddingVertical: 10, flexDirection: "row" }}
+                          style={{ paddingVertical: 10, flexDirection: "row", justifyContent: "space-between" }}
                         >
-                          {favoritePosts.includes(item._id) && (
-                            <TouchableOpacity
-                              onPress={() => {
-                                deleteFavoriteHandler(item._id);
-                              }}
-                            >
-                              <MaterialIcons
-                                name="favorite"
-                                size={34}
-                                color="red"
-                              />
-                            </TouchableOpacity>
-                          )}
-                          {!favoritePosts.includes(item._id) && (
-                            <TouchableOpacity
-                              onPress={() => {
-                                postFavoriteHandler(item._id);
-                              }}
-                            >
-                              <MaterialIcons
-                                name="favorite-outline"
-                                size={34}
-                                color="black"
-                              />
-                            </TouchableOpacity>
-                          )}
+                          <View style={{flexDirection: "row",alignItems: "center"}}>
+                          <TouchableOpacity
+                            style={{
+                              alignItems: "center",
+                              
+                            }}
+                            onPress={() => {
+                              favoritePosts.includes(item._id)
+                                ? deleteFavoriteHandler(item._id)
+                                : postFavoriteHandler(item._id);
+                            }}
+                          >
+                            <MaterialIcons
+                              name={
+                                favoritePosts.includes(item._id)
+                                  ? "favorite"
+                                  : "favorite-outline"
+                              }
+                              color={
+                                favoritePosts.includes(item._id)
+                                  ? "red"
+                                  : "black"
+                              }
+                              size={26}
+                            />
+                            
+                          </TouchableOpacity>
 
                           <TouchableOpacity
-                            style={{ paddingHorizontal: 10 }}
+                            style={{
+                              paddingHorizontal: 5,
+                              alignItems: "center",
+                            }}
                             onPress={() => {
                               toggleComments(item._id);
                             }}
                           >
-                            <MaterialIcons
-                              name="comment"
-                              size={34}
-                              color="black"
-                            />
+                            <Entypo name="message" size={26} color="black" />
+                            
+                          </TouchableOpacity>
+                          </View>
+                          <TouchableOpacity
+                            style={{
+                              paddingHorizontal: 10,
+                              flexDirection: "row",
+                              alignItems: "center",
+                            }}
+                            onPress={() => {
+                              toggleComments(item._id);
+                            }}
+                          >
+                            <FontAwesome name="share" size={20} color="black" />
+                            
                           </TouchableOpacity>
                         </View>
                       </View>

@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   login_button_text: {
-    fontWeight: "600",
+    fontFamily: 'MontserratAlternates-Medium',
     fontSize: 18,
     color: "white",
   },

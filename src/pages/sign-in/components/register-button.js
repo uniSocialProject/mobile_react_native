@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
     register_button_text: {
       fontSize: 18,
       color: "#1286C8",
-      fontWeight: "600",
+      fontFamily: 'MontserratAlternates-Medium',
+
     },
   });

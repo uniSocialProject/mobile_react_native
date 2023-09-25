@@ -12,9 +12,10 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { useFonts } from "expo-font";
 
 import ProfilePage from "./pages/profile/profile-page";
-import SharePostPage from "./pages/homepage/share-post/share-post-page"
+import SharePostPage from "./pages/homepage/share-post/share-post-page";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -25,10 +26,8 @@ function HomeStack() {
       screenOptions={{ headerShown: false, animation: "fade" }}
       initialRouteName="HomePage"
     >
-
       <Stack.Screen name="SharePostPage" component={SharePostPage} />
       <Stack.Screen name="HomePage" component={HomePage} />
-
     </Stack.Navigator>
   );
 }
@@ -97,6 +96,30 @@ function Navigation() {
 }
 
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    'MontserratAlternates-Black' : require("./assets/fonts/montserrat-alternates/MontserratAlternates-Black.ttf"),
+    'MontserratAlternates-BlackItalic' : require("./assets/fonts/montserrat-alternates/MontserratAlternates-BlackItalic.ttf"),
+    'MontserratAlternates-Bold' : require("./assets/fonts/montserrat-alternates/MontserratAlternates-Bold.ttf"),
+    'MontserratAlternates-BoldItalic' : require("./assets/fonts/montserrat-alternates/MontserratAlternates-BoldItalic.ttf"),
+    'MontserratAlternates-ExtraBold' : require("./assets/fonts/montserrat-alternates/MontserratAlternates-ExtraBold.ttf"),
+    'MontserratAlternates-ExtraBoldItalic' : require("./assets/fonts/montserrat-alternates/MontserratAlternates-ExtraBoldItalic.ttf"),
+    'MontserratAlternates-ExtraLight' : require("./assets/fonts/montserrat-alternates/MontserratAlternates-ExtraLight.ttf"),
+    'MontserratAlternates-ExtraLightItalic' : require("./assets/fonts/montserrat-alternates/MontserratAlternates-ExtraLightItalic.ttf"),
+    'MontserratAlternates-Italic' : require("./assets/fonts/montserrat-alternates/MontserratAlternates-Italic.ttf"),
+    'MontserratAlternates-Light' : require("./assets/fonts/montserrat-alternates/MontserratAlternates-Light.ttf"),
+    'MontserratAlternates-LightItalic' : require("./assets/fonts/montserrat-alternates/MontserratAlternates-LightItalic.ttf"),
+    'MontserratAlternates-Medium' : require("./assets/fonts/montserrat-alternates/MontserratAlternates-Medium.ttf"),
+    'MontserratAlternates-MediumItalic' : require("./assets/fonts/montserrat-alternates/MontserratAlternates-MediumItalic.ttf"),
+    'MontserratAlternates-Regular' : require("./assets/fonts/montserrat-alternates/MontserratAlternates-Regular.ttf"),
+    'MontserratAlternates-SemiBold' : require("./assets/fonts/montserrat-alternates/MontserratAlternates-SemiBold.ttf"),
+    'MontserratAlternates-SemiBoldItalic' : require("./assets/fonts/montserrat-alternates/MontserratAlternates-SemiBoldItalic.ttf"),
+    'MontserratAlternates-Thin' : require("./assets/fonts/montserrat-alternates/MontserratAlternates-Thin.ttf"),
+    'MontserratAlternates-ThinItalic' : require("./assets/fonts/montserrat-alternates/MontserratAlternates-ThinItalic.ttf"),
+  });
+
+  if (!fontsLoaded) {
+    return undefined;
+  }
   return (
     <AuthContextProvider>
       <Navigation />
