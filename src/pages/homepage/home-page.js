@@ -59,7 +59,6 @@ export default function HomePage({ navigation }) {
     }
     setIsOpen(!isOpen);
 
-    console.log(isOpen);
   }
 
   async function postCommentHandler(content) {
@@ -71,7 +70,7 @@ export default function HomePage({ navigation }) {
     const comments = await getPostComments(authCtx.token, postId);
     setComments(comments.comments.reverse());
 
-    console.log(comments.comments);
+   
   }
 
   async function deleteFavoriteHandler(postId) {
@@ -186,7 +185,7 @@ export default function HomePage({ navigation }) {
             >
               <Text
                 style={{
-                  fontFamily: "MontserratAlternates-SemiBold",
+                  fontFamily: `${process.env.EXPO_PUBLIC_PROJECT_FONT}Medium`,
 
                   fontSize: 12,
                   color: postType ? "black" : "white",
@@ -216,7 +215,7 @@ export default function HomePage({ navigation }) {
             >
               <Text
                 style={{
-                  fontFamily: "MontserratAlternates-SemiBold",
+                  fontFamily: `${process.env.EXPO_PUBLIC_PROJECT_FONT}Medium`,
                   fontSize: 12,
                   color: postType ? "white" : "black",
                 }}
@@ -272,7 +271,7 @@ export default function HomePage({ navigation }) {
                                 style={{
                                   fontSize: 16,
                                   paddingLeft: 10,
-                                  fontFamily: "MontserratAlternates-SemiBold"
+                                  fontFamily: `${process.env.EXPO_PUBLIC_PROJECT_FONT}Medium`
                                 }}
                               >
                                 {item.title}
@@ -281,7 +280,7 @@ export default function HomePage({ navigation }) {
                                 style={{
                                   fontSize: 16,
                                   paddingLeft: 10,
-                                  fontFamily: "MontserratAlternates-MediumItalic",
+                                  fontFamily: `${process.env.EXPO_PUBLIC_PROJECT_FONT}Medium`,
                                   color: "grey",
                                 }}
                               >
@@ -297,7 +296,7 @@ export default function HomePage({ navigation }) {
                         </View>
 
                         <View style={{ paddingTop: 5,paddingBottom: 15 }}>
-                          <Text style={{ fontSize: 18,  fontFamily: "MontserratAlternates-Medium" }}>{item.content}</Text>
+                          <Text style={{ fontSize: 18,  fontFamily: `${process.env.EXPO_PUBLIC_PROJECT_FONT}Medium` }}>{item.content}</Text>
                         </View>
 
                         <View

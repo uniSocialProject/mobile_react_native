@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     register_button_text: {
       fontSize: 18,
       color: "#1286C8",
-      fontFamily: 'MontserratAlternates-Medium',
+      fontFamily: `${process.env.EXPO_PUBLIC_PROJECT_FONT}Medium`,
 
     },
   });

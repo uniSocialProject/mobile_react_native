@@ -16,15 +16,19 @@ function SharePostPage({ navigation }) {
   const [isCameraOpen, setIsCameraOpen] = useState(false);
 
   async function getCameraPermission() {
-    if (hasCameraPermission == null && hasCameraPermission == false) {
+    if (hasCameraPermission === null && hasCameraPermission === false) {
       const cameraStatus = await Camera.requestCameraPermissionsAsync();
+
       setCameraPermission(cameraStatus.status === "granted");
+      console.log(cameraStatus.status)
       if (hasCameraPermission) {
         setIsCameraOpen(true);
       }
     } else {
       setIsCameraOpen(true);
     }
+
+
   }
 
   const takePicture = async () => {

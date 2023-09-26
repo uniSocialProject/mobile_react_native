@@ -13,7 +13,7 @@ export async function getUniversityPosts(token) {
       const response = await axios.get(baseURL + "/getPosts",{
         headers: {"authorization": `Bearer ${await token}`}
       })
-       console.log(response.data)
+    
       return response.data;
     } catch (e) {
       throw e.response.data.message;
@@ -28,7 +28,7 @@ export async function getUniversityPosts(token) {
       const response = await axios.get(baseURL + "/getDepartmentPosts",{
         headers: {"authorization": `Bearer ${await token}`}
       })
-       console.log(response.data)
+     
       return response.data;
     } catch (e) {
       throw e.response.data.message;
@@ -43,7 +43,7 @@ export async function getUniversityPosts(token) {
       const response = await axios.get(baseURL + "/user/getFavorites",{
         headers: {"authorization": `Bearer ${await token}`}
       })
-       console.log(response.data)
+       
       return response.data;
     } catch (e) {
       throw e.response.data.message;
@@ -53,16 +53,15 @@ export async function getUniversityPosts(token) {
 
   export async function postFavorites(token,postId) {
  
-    console.log("girdi 2")
+   
 
     try {
       
       const response = await axios.post(baseURL + "/user/postFavorite/"+postId,{},{
         headers: {"authorization": `Bearer ${await token}`}
       })
-      console.log("girdi 3")
+     
 
-       console.log(response.data)
       return response.data;
     } catch (e) {
       throw e.response.data.message;
@@ -77,7 +76,6 @@ export async function getUniversityPosts(token) {
       const response = await axios.delete(baseURL + "/user/deleteFavorite/"+postId,{
         headers: {"authorization": `Bearer ${await token}`}
       })
-       console.log(response.data)
       return response.data;
     } catch (e) {
       throw e.response.data.message;

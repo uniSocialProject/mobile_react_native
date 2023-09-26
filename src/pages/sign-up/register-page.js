@@ -53,7 +53,7 @@ export default function RegisterPage({ navigation }) {
     } catch (error) {
       showMessage({
         message: "Hata!",
-        description: error,
+        description: "asdas",
         type: "danger",
       });
       setIsLoading(false);

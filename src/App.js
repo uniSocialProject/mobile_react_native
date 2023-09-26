@@ -95,26 +95,19 @@ function Navigation() {
   );
 }
 
+console.log(`${process.env.EXPO_PUBLIC_PROJECT_FONT}`)
 export default function App() {
   const [fontsLoaded] = useFonts({
-    'MontserratAlternates-Black' : require("./assets/fonts/montserrat-alternates/MontserratAlternates-Black.ttf"),
-    'MontserratAlternates-BlackItalic' : require("./assets/fonts/montserrat-alternates/MontserratAlternates-BlackItalic.ttf"),
-    'MontserratAlternates-Bold' : require("./assets/fonts/montserrat-alternates/MontserratAlternates-Bold.ttf"),
-    'MontserratAlternates-BoldItalic' : require("./assets/fonts/montserrat-alternates/MontserratAlternates-BoldItalic.ttf"),
-    'MontserratAlternates-ExtraBold' : require("./assets/fonts/montserrat-alternates/MontserratAlternates-ExtraBold.ttf"),
-    'MontserratAlternates-ExtraBoldItalic' : require("./assets/fonts/montserrat-alternates/MontserratAlternates-ExtraBoldItalic.ttf"),
-    'MontserratAlternates-ExtraLight' : require("./assets/fonts/montserrat-alternates/MontserratAlternates-ExtraLight.ttf"),
-    'MontserratAlternates-ExtraLightItalic' : require("./assets/fonts/montserrat-alternates/MontserratAlternates-ExtraLightItalic.ttf"),
-    'MontserratAlternates-Italic' : require("./assets/fonts/montserrat-alternates/MontserratAlternates-Italic.ttf"),
-    'MontserratAlternates-Light' : require("./assets/fonts/montserrat-alternates/MontserratAlternates-Light.ttf"),
-    'MontserratAlternates-LightItalic' : require("./assets/fonts/montserrat-alternates/MontserratAlternates-LightItalic.ttf"),
-    'MontserratAlternates-Medium' : require("./assets/fonts/montserrat-alternates/MontserratAlternates-Medium.ttf"),
-    'MontserratAlternates-MediumItalic' : require("./assets/fonts/montserrat-alternates/MontserratAlternates-MediumItalic.ttf"),
-    'MontserratAlternates-Regular' : require("./assets/fonts/montserrat-alternates/MontserratAlternates-Regular.ttf"),
-    'MontserratAlternates-SemiBold' : require("./assets/fonts/montserrat-alternates/MontserratAlternates-SemiBold.ttf"),
-    'MontserratAlternates-SemiBoldItalic' : require("./assets/fonts/montserrat-alternates/MontserratAlternates-SemiBoldItalic.ttf"),
-    'MontserratAlternates-Thin' : require("./assets/fonts/montserrat-alternates/MontserratAlternates-Thin.ttf"),
-    'MontserratAlternates-ThinItalic' : require("./assets/fonts/montserrat-alternates/MontserratAlternates-ThinItalic.ttf"),
+   
+     "RobotoSlab-Black" : require(`./assets/fonts/RobotoSlab-Black.ttf`),
+    'RobotoSlab-Bold' : require("./assets/fonts/RobotoSlab-Bold.ttf"),
+    'RobotoSlab-ExtraBold' : require(`./assets/fonts/RobotoSlab-ExtraBold.ttf`),
+    'RobotoSlab-ExtraLight' : require(`./assets/fonts/RobotoSlab-ExtraLight.ttf`),
+    'RobotoSlab-Light' : require(`./assets/fonts/RobotoSlab-Light.ttf`),
+    'RobotoSlab-Medium' : require(`./assets/fonts/RobotoSlab-Medium.ttf`),
+    'RobotoSlab-Regular' : require(`./assets/fonts/RobotoSlab-Regular.ttf`),
+    'RobotoSlab-SemiBold' : require(`./assets/fonts/RobotoSlab-SemiBold.ttf`),
+    'RobotoSlab-Thin' : require(`./assets/fonts/RobotoSlab-Thin.ttf`),
   });
 
   if (!fontsLoaded) {

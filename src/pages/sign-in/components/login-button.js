@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   login_button_text: {
-    fontFamily: 'MontserratAlternates-Medium',
+    fontFamily: `${process.env.EXPO_PUBLIC_PROJECT_FONT}Medium`,
     fontSize: 18,
     color: "white",
   },

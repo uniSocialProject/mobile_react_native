@@ -14,7 +14,7 @@ export default ForgotPasswordText;
 const styles = StyleSheet.create({
   forgot_passwd: {
     fontSize: 18,
-    fontFamily: 'MontserratAlternates-Medium',
+    fontFamily: `${process.env.EXPO_PUBLIC_PROJECT_FONT}Medium`,
 
     color: "#1286C8",
   },

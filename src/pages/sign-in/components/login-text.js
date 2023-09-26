@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     login_text: {
         textAlign: "left",
       
-        fontFamily: 'MontserratAlternates-Medium',
+        fontFamily: `${process.env.EXPO_PUBLIC_PROJECT_FONT}Medium`,
         fontSize: 32,
         paddingVertical: 10,
       }
