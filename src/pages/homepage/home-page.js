@@ -31,6 +31,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Comments from "./comments/Comments";
 
 import Ionicons from "react-native-vector-icons/Ionicons";
+import FavoriteButton from "./components/heart";
 
 export default function HomePage({ navigation }) {
   const src =
@@ -58,7 +59,6 @@ export default function HomePage({ navigation }) {
       await getCommentsHandler(postId);
     }
     setIsOpen(!isOpen);
-
   }
 
   async function postCommentHandler(content) {
@@ -69,8 +69,6 @@ export default function HomePage({ navigation }) {
   async function getCommentsHandler(postId) {
     const comments = await getPostComments(authCtx.token, postId);
     setComments(comments.comments.reverse());
-
-   
   }
 
   async function deleteFavoriteHandler(postId) {
@@ -168,7 +166,7 @@ export default function HomePage({ navigation }) {
                   ? {
                       borderRadius: 10,
                       padding: 10,
-             
+
                       borderColor: "#1286C8",
                       borderBottomWidth: 2,
                     }
@@ -176,7 +174,6 @@ export default function HomePage({ navigation }) {
                       borderRadius: 10,
                       padding: 10,
                       backgroundColor: "#1286C8",
-                      
                     }
               }
               onPress={() => {
@@ -261,17 +258,22 @@ export default function HomePage({ navigation }) {
                             paddingVertical: 15,
                           }}
                         >
-                          <View style={{ flexDirection: "row", alignItems: "center" }}>
+                          <View
+                            style={{
+                              flexDirection: "row",
+                              alignItems: "center",
+                            }}
+                          >
                             <Image
                               style={{ width: 35, height: 35 }}
                               source={{ uri: src }}
                             />
-                            <View style={{justifyContent: "space-between"}}>
+                            <View style={{ justifyContent: "space-between" }}>
                               <Text
                                 style={{
                                   fontSize: 16,
                                   paddingLeft: 10,
-                                  fontFamily: `${process.env.EXPO_PUBLIC_PROJECT_FONT}Medium`
+                                  fontFamily: `${process.env.EXPO_PUBLIC_PROJECT_FONT}Medium`,
                                 }}
                               >
                                 {item.title}
@@ -295,15 +297,38 @@ export default function HomePage({ navigation }) {
                           />
                         </View>
 
-                        <View style={{ paddingTop: 5,paddingBottom: 15 }}>
-                          <Text style={{ fontSize: 18,  fontFamily: `${process.env.EXPO_PUBLIC_PROJECT_FONT}Medium` }}>{item.content}</Text>
+                        <View style={{ paddingTop: 5, paddingBottom: 15 }}>
+                          <Text
+                            style={{
+                              fontSize: 18,
+                              fontFamily: `${process.env.EXPO_PUBLIC_PROJECT_FONT}Medium`,
+                            }}
+                          >
+                            {item.content}
+                          </Text>
                         </View>
 
                         <View
-                          style={{ paddingVertical: 10, flexDirection: "row", justifyContent: "space-between" }}
+                          style={{
+                            paddingVertical: 10,
+                            flexDirection: "row",
+                            justifyContent: "space-between",
+                          }}
                         >
-                          <View style={{flexDirection: "row",alignItems: "center"}}>
-                          <TouchableOpacity
+                          <View
+                            style={{
+                              flexDirection: "row",
+                              alignItems: "center",
+                            }}
+                          >
+                            <FavoriteButton
+                              isLiked={favoritePosts.includes(item._id)}
+                              deleteFavoriteHandler={deleteFavoriteHandler}
+                              postFavoriteHandler={postFavoriteHandler}
+                              itemId={item._id}
+                            />
+
+                            {/* <TouchableOpacity
                             style={{
                               alignItems: "center",
                               
@@ -328,20 +353,19 @@ export default function HomePage({ navigation }) {
                               size={26}
                             />
                             
-                          </TouchableOpacity>
+                          </TouchableOpacity> */}
 
-                          <TouchableOpacity
-                            style={{
-                              paddingHorizontal: 5,
-                              alignItems: "center",
-                            }}
-                            onPress={() => {
-                              toggleComments(item._id);
-                            }}
-                          >
-                            <Entypo name="message" size={26} color="black" />
-                            
-                          </TouchableOpacity>
+                            <TouchableOpacity
+                              style={{
+                                paddingHorizontal: 5,
+                                alignItems: "center",
+                              }}
+                              onPress={() => {
+                                toggleComments(item._id);
+                              }}
+                            >
+                              <Entypo name="message" size={26} color="black" />
+                            </TouchableOpacity>
                           </View>
                           <TouchableOpacity
                             style={{
@@ -354,7 +378,6 @@ export default function HomePage({ navigation }) {
                             }}
                           >
                             <FontAwesome name="share" size={20} color="black" />
-                            
                           </TouchableOpacity>
                         </View>
                       </View>
