@@ -1,20 +1,12 @@
-import { useContext, useEffect, useRef, useState } from "react";
-import Heart from "react-animated-heart";
-
+import { useContext, useEffect, useState } from "react";
+import Logo from "../../components/ui/Logo";
 import {
-  Button,
   FlatList,
-  Image,
-  Text,
   SafeAreaView,
-  TouchableOpacity,
   View,
 } from "react-native";
 import { AuthContext } from "../../store/auth-context";
-import Entypo from "react-native-vector-icons/Entypo";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
 
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import {
   deleteFavorites,
   getDepartmentPosts,
@@ -24,14 +16,14 @@ import {
   postFavorites,
   postPostComments,
 } from "../../service/feed/posts";
-import MyLoader from "../../components/ui/LoadingSkeleton";
-import LottieView from "lottie-react-native";
 import BottomSheet from "../../components/ui/BottomSheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Comments from "./comments/Comments";
 
-import Ionicons from "react-native-vector-icons/Ionicons";
-import FavoriteButton from "./components/heart";
+import SharePostButton from "./components/share-post-button";
+import ChatButton from "./components/chat-button";
+import PostTypeButton from "./components/post-type-button";
+import PostView from "./components/post-view";
 
 export default function HomePage({ navigation }) {
   const src =
@@ -119,108 +111,16 @@ export default function HomePage({ navigation }) {
               paddingHorizontal: 10,
             }}
           >
-            <Image
-              style={{ height: 75, width: 150 }}
-              source={require("../../assets/images/logo.png")}
-            />
+            <Logo height={75} width={150} />
 
             <View style={{ flexDirection: "row" }}>
-              <TouchableOpacity
-                onPress={() => {
-                  //getPosts(authCtx.token);
-                  navigation.navigate("SharePostPage");
-                }}
-              >
-                <Entypo name="plus" size={30} color="#1286C8" />
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  //getPosts(authCtx.token);
-                  authCtx.logout();
-                }}
-              >
-                <Entypo
-                  name="message"
-                  style={{ paddingHorizontal: 10 }}
-                  size={30}
-                  color="#1286C8"
-                />
-              </TouchableOpacity>
+              <SharePostButton navigation={navigation} />
+              <ChatButton authCtx={authCtx} />
             </View>
           </View>
-          <View
-            style={{
-              paddingBottom: 15,
 
-              flexDirection: "row",
-              justifyContent: "space-around",
-              alignContent: "center",
-              alignItems: "center",
-              borderBottomWidth: 1,
-              borderBottomColor: "#1286C8",
-            }}
-          >
-            <TouchableOpacity
-              style={
-                postType
-                  ? {
-                      borderRadius: 10,
-                      padding: 10,
+          <PostTypeButton setPostType={setPostType} postType={postType} />
 
-                      borderColor: "#1286C8",
-                      borderBottomWidth: 2,
-                    }
-                  : {
-                      borderRadius: 10,
-                      padding: 10,
-                      backgroundColor: "#1286C8",
-                    }
-              }
-              onPress={() => {
-                setPostType(false);
-              }}
-            >
-              <Text
-                style={{
-                  fontFamily: `${process.env.EXPO_PUBLIC_PROJECT_FONT}Medium`,
-
-                  fontSize: 12,
-                  color: postType ? "black" : "white",
-                }}
-              >
-                ÜNİVERSİTE GÖNDERİLERİ
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={
-                postType
-                  ? {
-                      borderRadius: 10,
-                      padding: 10,
-                      backgroundColor: "#1286C8",
-                    }
-                  : {
-                      borderRadius: 10,
-                      padding: 10,
-                      borderColor: "#1286C8",
-                      borderBottomWidth: 2,
-                    }
-              }
-              onPress={() => {
-                setPostType(true);
-              }}
-            >
-              <Text
-                style={{
-                  fontFamily: `${process.env.EXPO_PUBLIC_PROJECT_FONT}Medium`,
-                  fontSize: 12,
-                  color: postType ? "white" : "black",
-                }}
-              >
-                BÖLÜM GÖNDERİLERİ
-              </Text>
-            </TouchableOpacity>
-          </View>
           <FlatList
             keyExtractor={(item) => item._id}
             data={postType ? deptPosts : uniPosts}
@@ -233,156 +133,15 @@ export default function HomePage({ navigation }) {
             renderItem={({ item }) => {
               return (
                 <>
-                  <View
-                    style={{
-                      margin: 5,
-                      backgroundColor: "white",
-                      borderRadius: 15,
-                      borderBottomWidth: 1,
-                      borderBottomColor: "#1286C8",
-                      padding: 20,
-                    }}
-                  >
-                    {isLoading ? (
-                      <View style={{ margin: 5, padding: 15 }}>
-                        <MyLoader />
-                      </View>
-                    ) : (
-                      <View>
-                        <View
-                          style={{
-                            flexDirection: "row",
-                            alignItems: "flex-start",
-                            justifyContent: "space-between",
-                            backgroundColor: "white",
-                            paddingVertical: 15,
-                          }}
-                        >
-                          <View
-                            style={{
-                              flexDirection: "row",
-                              alignItems: "center",
-                            }}
-                          >
-                            <Image
-                              style={{ width: 35, height: 35 }}
-                              source={{ uri: src }}
-                            />
-                            <View style={{ justifyContent: "space-between" }}>
-                              <Text
-                                style={{
-                                  fontSize: 16,
-                                  paddingLeft: 10,
-                                  fontFamily: `${process.env.EXPO_PUBLIC_PROJECT_FONT}Medium`,
-                                }}
-                              >
-                                {item.title}
-                              </Text>
-                              <Text
-                                style={{
-                                  fontSize: 16,
-                                  paddingLeft: 10,
-                                  fontFamily: `${process.env.EXPO_PUBLIC_PROJECT_FONT}Medium`,
-                                  color: "grey",
-                                }}
-                              >
-                                5 dakika önce
-                              </Text>
-                            </View>
-                          </View>
-                          <Ionicons
-                            name="ellipsis-vertical"
-                            size={20}
-                            color="black"
-                          />
-                        </View>
-
-                        <View style={{ paddingTop: 5, paddingBottom: 15 }}>
-                          <Text
-                            style={{
-                              fontSize: 18,
-                              fontFamily: `${process.env.EXPO_PUBLIC_PROJECT_FONT}Medium`,
-                            }}
-                          >
-                            {item.content}
-                          </Text>
-                        </View>
-
-                        <View
-                          style={{
-                            paddingVertical: 10,
-                            flexDirection: "row",
-                            justifyContent: "space-between",
-                          }}
-                        >
-                          <View
-                            style={{
-                              flexDirection: "row",
-                              alignItems: "center",
-                            }}
-                          >
-                            <FavoriteButton
-                              isLiked={favoritePosts.includes(item._id)}
-                              deleteFavoriteHandler={deleteFavoriteHandler}
-                              postFavoriteHandler={postFavoriteHandler}
-                              itemId={item._id}
-                            />
-
-                            {/* <TouchableOpacity
-                            style={{
-                              alignItems: "center",
-                              
-                            }}
-                            onPress={() => {
-                              favoritePosts.includes(item._id)
-                                ? deleteFavoriteHandler(item._id)
-                                : postFavoriteHandler(item._id);
-                            }}
-                          >
-                            <MaterialIcons
-                              name={
-                                favoritePosts.includes(item._id)
-                                  ? "favorite"
-                                  : "favorite-outline"
-                              }
-                              color={
-                                favoritePosts.includes(item._id)
-                                  ? "red"
-                                  : "black"
-                              }
-                              size={26}
-                            />
-                            
-                          </TouchableOpacity> */}
-
-                            <TouchableOpacity
-                              style={{
-                                paddingHorizontal: 5,
-                                alignItems: "center",
-                              }}
-                              onPress={() => {
-                                toggleComments(item._id);
-                              }}
-                            >
-                              <Entypo name="message" size={26} color="black" />
-                            </TouchableOpacity>
-                          </View>
-                          <TouchableOpacity
-                            style={{
-                              paddingHorizontal: 10,
-                              flexDirection: "row",
-                              alignItems: "center",
-                            }}
-                            onPress={() => {
-                              toggleComments(item._id);
-                            }}
-                          >
-                            <FontAwesome name="share" size={20} color="black" />
-                          </TouchableOpacity>
-                        </View>
-                      </View>
-                    )}
-                  </View>
+                  <PostView
+                    src={src}
+                    item={item}
+                    postFavoriteHandler={postFavoriteHandler}
+                    favoritePosts={favoritePosts}
+                    deleteFavoriteHandler={deleteFavoriteHandler}
+                    isLoading={isLoading}
+                    toggleComments={toggleComments}
+                  />
                 </>
               );
             }}

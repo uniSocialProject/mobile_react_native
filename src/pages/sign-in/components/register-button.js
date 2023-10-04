@@ -11,7 +11,7 @@ function RegisterButton({navigation}) {
       </Text>
     </TouchableOpacity>
   );
-}
+}  // 
 
 export default RegisterButton;
 

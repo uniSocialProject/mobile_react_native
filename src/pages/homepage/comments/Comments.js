@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import CommentInput from "./components/comment-input";
 
 export default function Comments({ comments, postCommentHandler }) {
 
@@ -12,12 +13,7 @@ export default function Comments({ comments, postCommentHandler }) {
   return (
     <View style={styles.container}>
        <View style={styles.input_container}>
-        <TextInput
-          style={styles.input}
-          value={comment}
-          onChangeText={(value) =>{setComment(value)}}
-          placeholder="Yorum..."
-        />
+        <CommentInput setComment={setComment}/>
       <TouchableOpacity onPress={()=>{postCommentHandler(comment); setComment("")}}>
         <View style={{borderRadius: 5, borderWidth: 2,padding: 10,marginHorizontal: 10}}>
         <Text>PAYLAŞ</Text>
