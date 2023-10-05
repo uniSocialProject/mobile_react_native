@@ -13,7 +13,7 @@ export default function Comments({ comments, postCommentHandler }) {
   return (
     <View style={styles.container}>
        <View style={styles.input_container}>
-        <CommentInput setComment={setComment}/>
+        <CommentInput setComment={setComment} comment={comment}/>
       <TouchableOpacity onPress={()=>{postCommentHandler(comment); setComment("")}}>
         <View style={{borderRadius: 5, borderWidth: 2,padding: 10,marginHorizontal: 10}}>
         <Text>PAYLAŞ</Text>

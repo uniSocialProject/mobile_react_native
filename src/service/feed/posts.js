@@ -21,6 +21,20 @@ export async function getUniversityPosts(token) {
     
   }
 
+  export async function postUniversityPost(token,title,content){
+
+    try{
+      const response = await axios.post(baseURL+"/createPost",{'title':title,'content': content, "imageUrl": ""},{
+        headers: {"authorization": `Bearer ${await token}`}
+      })
+      console.log("girdi")
+      return null;
+    }catch(e){
+      console.log("hata")
+      throw e.response.data.message;
+    }
+  }
+
   export async function getDepartmentPosts(token) {
  
     

@@ -24,6 +24,7 @@ import SharePostButton from "./components/share-post-button";
 import ChatButton from "./components/chat-button";
 import PostTypeButton from "./components/post-type-button";
 import PostView from "./components/post-view";
+import SharePostPage from "./share-post/share-post-page";
 
 export default function HomePage({ navigation }) {
   const src =
@@ -42,6 +43,8 @@ export default function HomePage({ navigation }) {
   const [isLoading, setIsLoading] = useState(true);
 
   const [postId, setPostId] = useState("");
+
+  const [isShareOpen,setIsShareOpen] = useState(false);
 
   const [isClick, setClick] = useState(false);
 
@@ -98,6 +101,7 @@ export default function HomePage({ navigation }) {
 
   return (
     <>
+    {isShareOpen && <SharePostPage isShareOpen={isShareOpen} setIsShareOpen={setIsShareOpen}/>}
       <GestureHandlerRootView style={{ flex: 1, backgroundColor: "white" }}>
         <SafeAreaView>
           <View
@@ -114,7 +118,7 @@ export default function HomePage({ navigation }) {
             <Logo height={75} width={150} />
 
             <View style={{ flexDirection: "row" }}>
-              <SharePostButton navigation={navigation} />
+              <SharePostButton setIsShareOpen={setIsShareOpen} />
               <ChatButton authCtx={authCtx} />
             </View>
           </View>

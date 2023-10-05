@@ -1,6 +1,6 @@
 import { StyleSheet, TextInput } from "react-native";
 
-function CommentInput({setComment}){
+function CommentInput({setComment,comment}){
     return <TextInput
     style={styles.input}
     value={comment}

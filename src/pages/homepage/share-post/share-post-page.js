@@ -1,11 +1,27 @@
-import { useRef, useState } from "react";
-import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { useContext, useRef, useState } from "react";
+import {
+  Image,
+  Modal,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import Entypo from "react-native-vector-icons/Entypo";
 import { Camera, CameraType } from "expo-camera";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import AntDesign from "react-native-vector-icons/AntDesign";
+import { postUniversityPost } from "../../../service/feed/posts";
+import { AuthContext } from "../../../store/auth-context";
 
-function SharePostPage({ navigation }) {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+function SharePostPage({ isShareOpen, setIsShareOpen }) {
+
+  const authCtx = useContext(AuthContext);
+
+
+  const [title, setTitle] = useState(undefined);
+  const [content, setContent] = useState(undefined);
 
   const [hasCameraPermission, setCameraPermission] = useState(null);
   const [image, setImage] = useState(null);
@@ -20,15 +36,13 @@ function SharePostPage({ navigation }) {
       const cameraStatus = await Camera.requestCameraPermissionsAsync();
 
       setCameraPermission(cameraStatus.status === "granted");
-      console.log(cameraStatus.status)
+      console.log(cameraStatus.status);
       if (hasCameraPermission) {
         setIsCameraOpen(true);
       }
     } else {
       setIsCameraOpen(true);
     }
-
-
   }
 
   const takePicture = async () => {
@@ -45,7 +59,164 @@ function SharePostPage({ navigation }) {
 
   return (
     <>
-      {isCameraOpen ? (
+      <Modal
+        transparent
+        statusBarTranslucent={true}
+        visible={isShareOpen}
+        animationType="fade"
+      >
+        <View
+          style={{
+            backgroundColor: "rgba(0,0,0,0.5)",
+            justifyContent: "center",
+            alignItems: "center",
+            flex: 1,
+          }}
+        >
+          <View
+            style={{
+              borderRadius: 10,
+              backgroundColor: "white",
+              padding: 20,
+            }}
+          >
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 20,
+                  fontFamily: `${process.env.EXPO_PUBLIC_PROJECT_FONT}Medium`,
+                }}
+              >
+                Gönderi Paylaş
+              </Text>
+              <TouchableOpacity
+                onPress={() => {
+                  setIsShareOpen(false);
+                }}
+              >
+                <Ionicons name="close" size={30} />
+              </TouchableOpacity>
+            </View>
+
+            <View style={styles.input_container}>
+              <TextInput
+                style={title != "" ? styles.input : styles.input_error}
+                onChangeText={(value) => {
+                  setTitle(value);
+                }}
+                value={title}
+                placeholder="Başlık.."
+              />
+            </View>
+
+            <View style={styles.input_container}>
+              <TextInput
+                style={
+                  content != ""
+                    ? {
+                        height: 90,
+                        borderRadius: 10,
+                        borderWidth: 1,
+                        padding: 10,
+                        flex: 1,
+                      }
+                    : {
+                        height: 90,
+                        borderRadius: 10,
+                        borderWidth: 2,
+                        padding: 10,
+                        flex: 1,
+                        borderColor: "red",
+                      }
+                }
+                multiline
+                onChangeText={(value) => {
+                  setContent(value);
+                }}
+                value={content}
+                placeholder="Açıklama.."
+              />
+            </View>
+
+            <View
+              style={{
+                flexDirection: "row",
+                marginVertical: 10,
+                width: 200,
+                alignSelf: "center"
+              }}
+            >
+              <TouchableOpacity
+                style={{
+                  height: 45,
+                  borderRadius: 10,
+                  alignItems: "center",
+                  
+                  borderWidth: 1,
+                  padding: 10,
+                  flex: 1,
+                }}
+              >
+                <View style={{flexDirection: "row"}}>
+                <AntDesign name="upload" size={20} />
+                <Text style={{paddingHorizontal: 20}}>/</Text>
+                <Ionicons name="camera" size={20} />
+                </View>
+              </TouchableOpacity>
+            </View>
+
+            <View style={{ flexDirection: "row"}}>
+              <TouchableOpacity
+                style={{
+                  borderRadius: 10,
+                  backgroundColor: "#1286C8",
+                  margin: 10,
+                  padding: 10,
+                }}
+                onPress={()=>{postUniversityPost(authCtx.token,title,content)}}
+              >
+                <Text
+                  style={{
+                    fontSize: 18,
+                    fontFamily: `${process.env.EXPO_PUBLIC_PROJECT_FONT}Medium`,
+                    color: "white",
+                  }}
+                >
+                  Gönder
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  setIsShareOpen(false);
+                }}
+                style={{
+                  borderRadius: 10,
+                  backgroundColor: "red",
+                  margin: 10,
+                  padding: 10,
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: 18,
+                    fontFamily: `${process.env.EXPO_PUBLIC_PROJECT_FONT}Medium`,
+                    color: "white",
+                  }}
+                >
+                  Vazgeç
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+      {/* {isCameraOpen ? (
         <View
           style={{
             flex: 1,
@@ -233,8 +404,35 @@ function SharePostPage({ navigation }) {
             </TouchableOpacity>
           </View>
         </View>
-      )}
+      )} */}
     </>
   );
 }
 export default SharePostPage;
+const styles = StyleSheet.create({
+  input_container: {
+    flexDirection: "row",
+    paddingVertical: 0,
+    alignItems: "center",
+    marginVertical: 10,
+    width: "80%",
+  },
+  input: {
+    height: 45,
+    borderRadius: 10,
+    borderWidth: 1,
+    padding: 10,
+    flex: 1,
+  },
+  input_error: {
+    height: 45,
+    borderRadius: 10,
+    borderWidth: 2,
+    padding: 10,
+    flex: 1,
+    borderColor: "red",
+  },
+  icon: {
+    marginHorizontal: 10,
+  },
+});
