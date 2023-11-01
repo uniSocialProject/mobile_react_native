@@ -15,13 +15,22 @@ import AntDesign from "react-native-vector-icons/AntDesign";
 import { postUniversityPost } from "../../../service/feed/posts";
 import { AuthContext } from "../../../store/auth-context";
 
-function SharePostPage({ isShareOpen, setIsShareOpen }) {
+function SharePostPage({ isShareOpen, setIsShareOpen, getResources }) {
 
   const authCtx = useContext(AuthContext);
 
 
   const [title, setTitle] = useState(undefined);
   const [content, setContent] = useState(undefined);
+
+  async function sharePost(title,content){
+    console.log(authCtx.token)
+    
+
+    await postUniversityPost(authCtx.token,title,content);
+    setIsShareOpen(false);
+    getResources();
+  }
 
   const [hasCameraPermission, setCameraPermission] = useState(null);
   const [image, setImage] = useState(null);
@@ -179,7 +188,7 @@ function SharePostPage({ isShareOpen, setIsShareOpen }) {
                   margin: 10,
                   padding: 10,
                 }}
-                onPress={()=>{postUniversityPost(authCtx.token,title,content)}}
+                onPress={()=>{sharePost(title,content)}}
               >
                 <Text
                   style={{

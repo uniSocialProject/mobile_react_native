@@ -6,8 +6,7 @@ function LoginButton({ data, setIsValid, setData, loginHandler }) {
       style={styles.login_button}
       onPress={() => {
         if (data.email != "" && data.password != "") {
-          console.log(data.email, data.password);
-          loginHandler(data.email, data.password);
+          loginHandler();
           setData({ email: "", password: "" });
           setIsValid(true);
         } else {

@@ -39,20 +39,19 @@ export default function LoginPage({ navigation }) {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  async function loginHandler(email, password) {
+  async function loginHandler() {
     setIsLoading(true);
     try {
-      const response = await login(email, password);
+      const response = await login(data.email,data.password);
       const token = response.token;
       authCtx.authenticate(token);
+      console.log(data.email, data.password);
+
       setIsLoading(false);
     } catch (error) {
       console.log("hata");
-      showMessage({
-        message: "Hata!",
-        description: error,
-        type: "danger",
-      });
+      console.log(error);
+
       setIsLoading(false);
     }
   }
@@ -89,7 +88,6 @@ export default function LoginPage({ navigation }) {
           <RegisterButton navigation={navigation} />
         </View>
       </View>
-      <FlashMessage position="top" />
     </>
   );
 }

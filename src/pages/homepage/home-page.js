@@ -101,7 +101,7 @@ export default function HomePage({ navigation }) {
 
   return (
     <>
-    {isShareOpen && <SharePostPage isShareOpen={isShareOpen} setIsShareOpen={setIsShareOpen}/>}
+    {isShareOpen && <SharePostPage isShareOpen={isShareOpen} setIsShareOpen={setIsShareOpen} getResources={getResources}/>}
       <GestureHandlerRootView style={{ flex: 1, backgroundColor: "white" }}>
         <SafeAreaView>
           <View
@@ -136,7 +136,7 @@ export default function HomePage({ navigation }) {
             contentContainerStyle={{ paddingBottom: 175 }}
             renderItem={({ item }) => {
               return (
-                <>
+                 
                   <PostView
                     src={src}
                     item={item}
@@ -146,7 +146,7 @@ export default function HomePage({ navigation }) {
                     isLoading={isLoading}
                     toggleComments={toggleComments}
                   />
-                </>
+               
               );
             }}
           />
